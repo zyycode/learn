@@ -29,38 +29,38 @@
   for (let i = 0; i < 400; i++) {
     dot(i, 10)
   }
-
+  
   // 虚线-1
-  for (let i = 0; i < 400; i=i + 2) {
+  for (let i = 0; i < 400; i += 2) {
     dot(i, 20)
   }
 
   // 虚线-2
-  for (let i = 0; i < 400; i = i + 4) {
+  for (let i = 0; i < 400; i += 4) {
     dot(i, 30)
     dot(i + 1, 30)
   }
 
   // 虚线-3
-  for (let i = 0; i < 400; i=i + 6) {
+  for (let i = 0; i < 400; i += 6) {
     for (let j = i; j < i + 3; j++) {
       dot(j, 40)
     }
   }
 
   // 斜线-45度
-  for (let i = 0; i < 400; i = i + 0.001) {
+  for (let i = 0; i < 400; i += 0.001) {
     dot(i, i)
   }
 
   // 斜线-对角
-  for (let i = 0; i < 400; i = i + 0.001) {
+  for (let i = 0; i < 400; i += 0.001) {
     dot(i, 3 * i / 4)
   }
 
   // 圆
 
-  for (let i = 50; i < 150; i = i + 0.001) {
+  for (let i = 50; i < 150; i += 0.001) {
     dot(i, Math.sqrt(2500 - (i - 100) ** 2) + 100)
     dot(i, -Math.sqrt(2500 - (i - 100) ** 2) + 100)
   }
@@ -71,6 +71,7 @@
       dot (i, j)
     }
   }
+  
   // 正方形 
   for (let i = 200; i < 250; i++) { 
     for (let j = 200; j < 250; j++) { 
