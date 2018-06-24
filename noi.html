@@ -105,6 +105,16 @@
   var s = parseInt((n / 10) % 10)
   var g = parseInt(n % 10)
   console.log(g * 100 + s * 10 + b)
+  // 数值反转
+  function reverse(x) {
+    var res = 0
+    while (x != 0) {
+      var pop = x % 10
+      x = x / 10 >> 0
+      res = res * 10 + pop
+    }
+    return res
+  }
 </script>
 <script id="ch0103/14">
   // 14: 大象喝水
@@ -261,37 +271,146 @@
   }
 </script>
 <script id="ch0104/08">
-
+  // 08: 判断一个数能否同时被3和5整除
+  // n % 15 == 0
+  var n = parseInt(prompt('请输入一个正整数：'))
+  if (n % 3 == 0 && n % 5 == 0) {
+    console.log('YES')
+  } else {
+    console.log('NO')
+  }
 </script>
 <script id="ch0104/09">
-
+  // 09:判断能否被3，5，7整除
+  var n = parseInt(prompt('请输入一个整数：'))
+  if (n % 105 == 0) {
+    console.log(3, 5, 7)
+  } else if (n % 15 == 0) {
+    console.log(3, 5)
+  } else if (n % 21 == 0) {
+    console.log(3, 7)
+  } else if (n % 35 == 0) {
+    console.log(5, 7)
+  } else if (n % 3 == 0) {
+    console.log(3)
+  } else if (n % 5 == 0) {
+    console.log(5)
+  } else if (n % 7 == 0) {
+    console.log(7)
+  } else {
+    console.log('n')
+  }
 </script>
 <script id="ch0104/10">
-
+  // 10: 有一门课不及格的学生
+  var a = parseInt(prompt('请输入成绩1'))
+  var b = parseInt(prompt('请输入成绩2'))
+  var max
+  var min
+  a >= b ? (max = a, min = b) : (min = a, max = b)
+  if (min < 60 && max > 60) {
+    console.log(1)
+  } else {
+    console.log(0)
+  }
 </script>
 <script id="ch0104/11">
-
+  // 11: 晶晶赴约会
+  var day = parseInt(prompt('请输入天数1-7：'))
+  switch (day) {
+    case 1:
+    case 3:
+    case 5: console.log('NO'); break;
+    case 2:
+    case 4:
+    case 6:
+    case 7: console.log('YES'); break;
+    default: console.log('输入日期格式不对！'); break;
+  }
 </script>
 <script id="ch0104/12">
-
+  // 12: 骑车与走路
+  var s = parseInt(prompt('请输入一个整数：'))
+  var bt = s / 3 + 50
+  var wt = s / 1.2
+  if (bt > wt) {
+    console.log('Walk')
+  } else if (bt < wt) {
+    console.log('Bike')
+  } else {
+    console.log('All')
+  }
 </script>
 <script id="ch0104/13">
-
+  // 13: 分段函数
+  do {
+    var n = Number(prompt('请输入浮点数N：'))
+  } while (n < 0 || n >= 20)
+  if (n >= 0 && n < 5) {
+    console.log(n + 2.5)
+  }
+  if (n >= 5 && n < 10) {
+    console.log(2- 1.5 * (n - 3) ** 2)
+  }
+  if (n >= 10 && n < 20) {
+    console.log(n / 2 - 1.5)
+  }
 </script>
 <script id="ch0104/14">
-
+  // 14: 计算邮资
+  var w = parseInt(prompt('请输入商品重量：'))
+  var m = prompt('请选择是否加急，若加急输入y，否则输入n：')
+  var money = 0
+  if (w <= 1000) {
+    money = 8
+  } else {
+    money = 8 + Math.ceil((w - 1000) / 500) * 4
+  } 
+  if (m == 'y') {
+    money += 5
+  }
+  console.log(money)
 </script>
 <script id="ch0104/15">
-
+  // 15: 最大数输出
+  var a = parseInt(prompt('请输入整数a：'))
+  var b = parseInt(prompt('请输入整数b：'))
+  var c = parseInt(prompt('请输入整数c：'))
+  var max
+  a > b ? a > c ? max = a : max = c : b > c  , ? max =  b : max = c
+  console.log(max)
 </script>
 <script id="ch0104/16">
-
+  // 16: 三角形判断
+  // 三角形任意两边之和大于第三边。一次判断：最短的两条边小于另一条边
+  var a = parseInt(prompt('请输入整数a：'))
+  var b = parseInt(prompt('请输入整数b：'))
+  var c = parseInt(prompt('请输入整数c：'))
+  if (a + b > c && a + c > b && b + c > a) {
+    console.log('YES')
+  } else {
+    console.log('NO')
+  }
 </script>
 <script id="ch0104/17">
-
+  do {
+    var year = parseInt(prompt('请输入年数：'))
+  } while (year < 0 || year > 3000)
+  if ((year % 100 !== 0 && year % 4 === 0) || (year % 100 === 0 && year % 400 === 0)) {
+    console.log('Y')
+  } else {
+    console.log('N')
+  }
 </script>
 <script id="ch0104/18">
-
+  // 18: 点和正方形的关系
+  var x = parseInt(prompt('请输入坐标x：'))
+  var y = parseInt(prompt('请输入坐标y：'))
+  if ( x >= -1 && x <= 1 && y >= -1 && y <= 1) {
+    console.log('yes')
+  } else {
+    console.log('no')
+  }
 </script>
 <script id="ch0104/19">
 
