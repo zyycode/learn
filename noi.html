@@ -489,7 +489,13 @@
   console.log(aver)
 </script>
 <script id="ch0105/04">
-
+  var n = parseInt(prompt('输入n个整数：'))
+  var sum = 0
+  for (let i = 0; i < n; i++) {
+    sum += parseInt(prompt('输入整数：'))
+  } 
+  var aver = Number(sum / n).toFixed(5)
+  console.log(sum, aver)
 </script>
 <script id="ch0105/05">
   // 05: 最高的分数
@@ -505,32 +511,105 @@
   }
   console.log(max)
 </script>
-<!-- <script id="ch0105/06">
-
+<script id="ch0105/06">
+  var n = parseInt(prompt('输入n个整数：'))
+  var max = 0
+  var min = 10000
+  for (let i = 0; i < n; i++) {
+    var a = parseInt(prompt('输入整数：'))
+    if (a > max) {
+      max = a
+    }
+    if (a < min) {
+      min = a
+    }
+  }
+  console.log(max - min)
 </script>
 <script id="ch0105/07">
-
+  var d = parseInt(prompt('输入天数'))
+  var sum = 0
+  var gold = 0
+  var sliver = 0
+  var copper = 0
+  for (let i = 0; i < d; i++) {
+    gold += parseInt(prompt('输入金牌数量：'))
+    sliver += parseInt(prompt('输入银牌数量：'))
+    copper += parseInt(prompt('输入铜牌数量：'))
+  }
+  sum = gold + sliver + copper
+  console.log(gold, sliver, copper, sum)
 </script>
 <script id="ch0105/08">
-
+  var n = parseInt(prompt('请输入多边形的边数：'))
+  var sum = 0
+  for (let i = 0; i < n - 1; i++) {
+    sum += parseInt(prompt('输入内角数：'))
+  }
+  console.log((n-2) * 180 - sum)
 </script>
 <script id="ch0105/09">
-
+  var m = parseInt(prompt('输入下限值'))
+  var n = parseInt(prompt('输入上限值'))
+  var sum = 0
+  for (let i = m; i <= n; i++) {
+    if (i % 2 !== 0) {
+      sum += i
+    }
+  }
+  console.log(sum)
 </script>
 <script id="ch0105/10">
-
+  var m = parseInt(prompt('输入下限值'))
+  var n = parseInt(prompt('输入上限值'))
+  var sum = 0
+  for (let i = m; i <= n; i++) {
+    if (i % 17 == 0) {
+      sum += i
+    }
+  }
+  console.log(sum)
 </script>
 <script id="ch0105/11">
-
+  var k = parseInt(prompt('输入整数k'))
+  var j = 0
+  var n = 0
+  var m = 0
+  for (let i = 0; i < k; i++) {
+    var a = parseInt(prompt('输入数值'))
+    switch (a) {
+      case 1: j++; break;
+      case 5: n++; break;
+      case 10: m++; break;
+    }
+  }
+  console.log(j, n, m)
 </script>
 <script id="ch0105/12">
-
+  var n = parseInt(prompt('输入整数长度'))
+  var key = parseInt(prompt('输入匹配数字'))
+  var j = 0
+  for (let i = 0; i< n; i++) {
+    var a = parseInt(prompt('输入具体数字：'))
+    if (a == key) {
+      j++
+    }
+  }
+  console.log(j)
 </script>
 <script id="ch0105/13">
-
+  var a = parseInt(prompt('请输入整数a'))
+  var n = parseInt(prompt('请输入整数n'))
+  console.log(a ** n)
 </script>
 <script id="ch0105/14">
-
+  var x = parseInt(prompt('请输入整数x'))
+  var n = parseInt(prompt('请输入整数n'))
+  var sum = x
+  for (let i = 0; i < n; i++) {
+    sum += sum * 0.001
+  }
+  console.log(sum.toFixed(4))
 </script>
 <script id="ch0105/15">
 
@@ -546,7 +625,7 @@
 </script>
 <script id="ch0105/19">
 
-</script> -->
+</script>
 <script id="ch0105/20">
   // 20: 球弹跳高度的计算
   var h = parseInt(prompt('请输入高度：'))
