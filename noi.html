@@ -413,10 +413,48 @@
   }
 </script>
 <script id="ch0104/19">
-
+  // 19: 简单计算器
+  var a = parseInt(prompt('请输入整数a：'))
+  var b = parseInt(prompt('请输入整数b：'))
+  var s = prompt('请输入运算符号：')
+  switch (s) {
+    case '+': console.log(a + b); break;
+    case '-': console.log(a - b); break;
+    case '*': console.log(a * b); break;
+    case '/': if (a == 0 || b == 0) {
+      console.log('Divided by zero!')
+    } else {
+      console.log(a / b)
+    } break;
+    default: console.log('Invalid operator!'); break;
+  }
 </script>
 <script id="ch0104/20">
+  // 20: 求一元二次方程的根
+  var a = Number(prompt('请输入a：'))
+  var b = Number(prompt('请输入b：'))
+  var c = Number(prompt('请输入c：'))
+  var x1
+  var x2
 
+  var delta = b * b - 4 * a * c
+
+  if (delta > 0) {
+    x1 = (-b) / (2 * a) + Math.sqrt(delta) / (2 * a)
+    x2 = (-b) / (2 * a) - Math.sqrt(delta) / (2 * a)
+    console.log(x1, x2)
+  } else if ( delta == 0) {
+    var x = (-b) / (2 * a) + Math.sqrt(delta) / (2 * a)
+    console.log(x)
+  } else {
+    x1_r = (-b) / (2 * a)
+    x1_x = Math.sqrt(-delta) / (2 * a)
+    console.log(x1_r + '+' + x1_x + 'i', x1_r + '-' + x1_x + 'i')
+  }
+</script>
+<script id="ch0104/21">
+  // 21: 苹果和虫子2
+  
 </script>
 <script id="ch0105/01">
 
