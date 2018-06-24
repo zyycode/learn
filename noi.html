@@ -485,7 +485,7 @@
       sum = sum + a
     }
   }
-  var aver = (sum / n).toFixed(2)
+  var aver = (sum / n).toFixed(4)
   console.log(aver)
 </script>
 <script id="ch0105/04">
@@ -493,12 +493,12 @@
 </script>
 <script id="ch0105/05">
   // 05: 最高的分数
+  var max = 0
   do {
     var n = parseInt(prompt('请输入人数：'))
   } while (n < 0 || n > 100)
   for (let i = 0; i < n; i++) {
     var a = parseInt(prompt('请输入分数'))
-    var max = 0
     if (a > max) {
       max = a
     }
@@ -550,7 +550,7 @@
 <script id="ch0105/20">
   // 20: 球弹跳高度的计算
   var h = parseInt(prompt('请输入高度：'))
-  var sum = 0
+  var sum = h
   var tall = h
   for (let i = 1; i < 10; i++) {
     tall = tall / 2
