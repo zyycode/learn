@@ -10,7 +10,7 @@ for (var i = 0; i < 7; i++) {
 console.log(str)
 
 // ! improved version
-var str = ' '
+var str = ''
 for (var i = 0; i < 7; i++) {
   str += '#'
   console.log(str)
@@ -220,9 +220,24 @@ for (var i = min; i > 0; i--) {
   }
 }
 
+var m = 15
+var n = 12
+var max
+max = m > n ? m : n
+for (var i = max; ; i++) {
+  if (i % m === 0 && i % n === 0) {
+    console.log(i)
+    break
+  }
+}
+
 
 var a = parseInt(prompt('输入a：'))
 var b = parseInt(prompt('输入b：'))
+var a = 15
+var b = 12
+var m = a
+var n = b
 while (1) {
   if ( a > b) {
     a -= b
@@ -233,6 +248,10 @@ while (1) {
     break
   }
 }
+// 最小公倍数：(m * n) / a 。a 为最大公倍数
+// m = a * b; n = a * c
+// 最小公倍数为 a * b * c, 即为 (m * n) / a
+console.log((m * n) / a)
 
 /*
  * 题目：敲7。输出1到100以内所有7的倍数以及数字中包含7的数。
@@ -319,4 +338,31 @@ for (let i = 2; i < 100; i++) {
 //   console.log(n + ' 不是素数')
 // }
 
+/* 
+ * 题目：分解质因数，把一个数分解为若干质数的乘积
+*/
+function divideByPrime(n) {
+  let arr = []
+  for (let i = 2; i < n / 2; i++) {
+    if (isPrime(i)) arr.push(i)
+  }
+  // console.log(arr)
+  let x = n
+  for (let j = 0; j < arr.length; j++) {
+    while (x % arr[j] === 0) {
+      x = x / arr[j]
+      console.log(arr[j])
+    }
+  }
+}
+function isPrime(x) {
+  for (let i = 2; i <= Math.sqrt(x); i++) {
+    if (x % 2 === 0) return 0
+  }
+  return 1
+}
+divideByPrime(120)
 
+/*
+ * 题目：找出最小的能被1到20所有数整除的数。
+*/
