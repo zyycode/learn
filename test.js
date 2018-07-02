@@ -72,20 +72,9 @@ var nthUglyNumber = function(n) {
 }
 console.log(nthUglyNumber(10))
 
-var isPerfectSquare = function(num) {
-
+var arr = []
+for (var i = 0; i < 5; i++) {
+  arr.unshift(Number(prompt('第 ' + (i + 1) + ' 个数')))
 }
 
-var isPowerThree = function(n) {
-  if (n === 0)  return false
-  while (n % 3 === 0) {
-    n /= 3
-  }
-  return n === 1
-}
-var isPowerTour = function(n) {
-
-}
-var randBitwiseAnd = function(m, n) {
-  
-}
+console.log(arr)
