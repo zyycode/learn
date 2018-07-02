@@ -90,13 +90,6 @@ console.log(arr)
  * 因为1634是一个四位数。
  * 找出100到100000以内所有的水仙花数。
 */
-// 获取数字位数
-var n = 0
-var x = 153
-while (x != 0) {
-  x = x / 10 >> 0
-  n++
-}
 
 var n = 0
 var sum = 0
@@ -105,6 +98,7 @@ for (let i = 100; i < 100000; i++) {
   var sum = 0
   var x = i
   var y = i
+  // 获取数字位数
   while (x != 0) {
     x = x / 10 >> 0
     n++
@@ -117,6 +111,33 @@ for (let i = 100; i < 100000; i++) {
   if (i == sum) {
     console.log(i)
   }
+}
+
+// 使用函数来抽象化解决
+function isWaterFlowerNumber(n) {
+  var width = numberWidth(n)
+  var sum = digitPowerSum(n, width)
+  return sum === n
+}
+
+function numberWidth(n) {
+  var width = 0
+  do {
+    var digit = n % 10
+    width++
+    n = (n - digit) / 10
+  } while (n > 0)
+  return width
+}
+
+function digitPowerSum(n, e) {
+  var sum = 0
+  do {
+    var digit = n % 10
+    sum += digit ** e
+    n = (n - digit) / 10
+  } while  (n > 0)
+  return sum
 }
 
 /* 
@@ -306,7 +327,8 @@ while((high - low) > 0.00001) {
     low = x
   }
 }
-console.log((high + low) / 2);
+console.log((high + low) / 2)
+
 
 
 /*
