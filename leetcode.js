@@ -1,16 +1,16 @@
-// * 326. Power of Three
+// 326. Power of Three
 
 function isPowerOfThree(n) {
 
 }
 
-// * 367. Valid Perfect Square
+// 367. Valid Perfect Square
 
 function isPerfectSquare() {
 
 }
 
-// * 136. Single Number
+// 136. Single Number
 
 function sigleNumber(nums) {
   var res = 0
@@ -28,3 +28,72 @@ function sigleNumber2(nums) {
     }
   }
 }
+
+// hangmingDistance
+
+function hangmingDistance(x, y) {
+  var digit1
+  var digit2
+  var count = 0
+  do {
+    digit1 = x % 2
+    digit2 = y % 2
+    count += digit1 === digit2 ? 0 : 1
+    x = (x - digit1) / 2
+    y = (y - digit2) / 2
+  } while (x > 0 || y > 0)
+  return count
+}
+// console.log(hangmingDistance2(1, 4))
+
+function hangmingDistance2(x, y) {
+  var count = 0
+  var z = x ^ y
+  while (z) {
+    if (z & 1) count++
+    z = z >> 1
+  }
+  return count
+}
+
+// add binary
+
+function addBinary(a, b) {
+  var str = ''
+  var i = a.length - 1
+  var j = b.length - 1
+  var reminder = 0
+  while (i >= 0 || j >= 0) {
+    var sum = reminder
+    if (i >= 0) sum += parseInt(a[i])
+    if (j >= 0) sum += parseInt(b[j])
+    str += (sum % 2)
+    reminder = (sum / 2) | 0
+    i--
+    j--
+  }
+  if (reminder !== 0) {
+    str += reminder
+  }
+  return str.split('').reverse().join('')
+}
+console.log(addBinary('11', '1'))
+
+// 58. Length of Last Word
+
+function lengthOfLastWord(s) {
+  if (s === null || s.length === 0) return 0
+  var count = 0
+  for (var i = s.length - 1; i > 0; i--) {
+    if (s[i] === ' ') {
+      if (count === 0) {
+        continue
+      } else {
+        return count
+      }
+    }
+    count++
+  }
+  return count
+}
+console.log(lengthOfLastWord('hello world'))
