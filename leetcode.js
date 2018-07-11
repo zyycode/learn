@@ -1,3 +1,42 @@
+/**
+ * 387. First Unique Character in a String
+ */
+// 1st step: Getting a count of all characters in string.
+// 2st step: compare input character to our key/value pairs. 
+function firstUniqChar(s) {
+  // 1st step
+  var map = new Map()
+  for (let i = 0; i < s.length; i++) {
+    if (map.has(s[i])) {
+      map.set(s[i],2)
+    } else {
+      map.set(s[i],1)
+    }
+  }
+  // 2st step
+  for (let i = 0; i < s.length; i++) {
+    if (map.has(s[i]) && map.get(s[i]) === 1) {
+      return i
+    }
+  }
+  return -1
+}
+console.log(firstUniqChar('loveleetcode'))
+function firstUniqChar(s) {
+  for (var i = 0; i < s.length; i++) {
+    if (s.indexOf(s[i]) === s.lastIndexOf(s[i])) {
+      return i
+    }
+  }
+  return -1
+}
+
+/**
+ * ! 5. Longest Palindromic Substring 回文子串
+ * 1>  
+ */
+
+
 // 326. Power of Three
 
 function isPowerOfThree(n) {
