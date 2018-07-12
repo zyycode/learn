@@ -1,4 +1,31 @@
 /**
+ * 415. Add Strings (大数相加)
+ * 选择每一位上的字符相加，考虑进位，通过相加后的数除10 余10 可得个位和进位
+ */
+function addStrings(num1, num2) {
+  let i = num1.length - 1
+  let j = num2.length - 1
+  let carry = 0
+  let res = ''
+  while (i >= 0 || j >= 0 || carry) {
+    let sum = 0
+    if (i >= 0) {
+      sum += (num1[i] - 0)
+      i--
+    }
+    if (j >= 0) {
+      sum += (num2[j] - 0)
+      j--
+    }
+    sum += carry
+    carry = Math.floor(sum / 10)
+    sum = sum % 10
+    res += sum.toString() 
+  }
+  return res.split('').reverse().join('')
+}
+console.log(addStrings('123', '123'));
+/**
  * 387. First Unique Character in a String
  */
 // 1st step: Getting a count of all characters in string.
