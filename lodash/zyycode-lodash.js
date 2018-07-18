@@ -1,5 +1,6 @@
 var zyycode = {
   /**
+   * @description
    * Creates an array of elements split into groups the length of size. 
    * If array can't be split evenly, the final chunk will be the remaining 
    * elements.
@@ -17,6 +18,7 @@ var zyycode = {
     return result
   },
   /**
+   * @description
    * Creates an array with all falsey values removed. 
    * The values false, null, 0, "", undefined, and NaN are falsey.
    *
@@ -33,6 +35,7 @@ var zyycode = {
     return result
   }, 
   /**
+   * @description
    * Creates a new array concatenating array with any additional arrays 
    * and/or values.
    *
@@ -45,6 +48,7 @@ var zyycode = {
     return result
   },
   /**
+   * @description
    * create a slice of array with n elements droppen from the beaginning.
    *
    * @param {Array} array The array to query.
@@ -55,6 +59,7 @@ var zyycode = {
       return array.slice(n) 
   },
   /**
+   * @description
    * create a slice of array with n elements droppen from the end.
    *
    * @param {Array} array The array to query.
@@ -67,6 +72,7 @@ var zyycode = {
     return array
   },
   /**
+   * @description
    * Flattens array a single level deep.
    *
    * @param {Array} array The array to flatten.
@@ -87,11 +93,21 @@ var zyycode = {
     // if (!Array.isArray(array)) return array
     // return this.flattenDeep(array)
   },
-
-  fill: function() {
-
+  /**
+   * @description
+   * Fills elements of array with value from start up to, but not including end.
+   * 
+   * @param {Array} array The array to fill.
+   * @param {*} value The value to array with.
+   * @param {number} [start=0] The start position.
+   * @param {number} [end=array.length] The end position.
+   * @returns {Array} Returns array.
+   */
+  fill: function(array, value, start=0, end=array.length) {
+    return array.fill(value, start, end)
   },
   /**
+   * @description
    * Computes the sum in array.
    *
    * @param {Array} array The array to iterate over.
@@ -102,6 +118,7 @@ var zyycode = {
     return this.sumBy(array, it => it)
   },
   /**
+   * @description
    * This method is like _.sum except that it accepts iteratee 
    * which is invoked for each element in array to generate the value to be summed. 
    * The iteratee is invoked with one argument: (value).
@@ -116,8 +133,45 @@ var zyycode = {
       sum += iteratee(array[i])
     }
     return sum
-  }
+  },
+  /**
+   * @description
+   * Gets the index at which the first occurrence of value is found in array. 
+   * If fromIndex is negative, it's used as the offset from the end of array.
+   * 
+   * @param {Array} array The array to inspect.
+   * @param {*} value The value to search for.
+   * @param {number} [fromIndex=0] THe index to search from.
+   * @returns {number} Return the index of the matched value, else -1
+   */
+  indexOf: function(array, value, fromIndex = 0) {
+    return array.indexOf(value, fromIndex)
+  },
+
+  lastIndexOf: function(array, value, fromIndex=array.length - 1) {
+    return array.lastIndexOf(value, fromIndex)
+  },
+  /**
+   * @description
+   * Converts all elements in array into a string separated by separator.
+   * 
+   * @param {Array} array The array to convert.
+   * @param {string} [separatpor=','] The element separator.
+   * @returns {string} Returns the joined string.
+   */
+  join: function(array, separatpor=',') {
+    return array.join(separatpor)
+  },
+  /**
+   * @description
+   * Get the last element of array.
+   * 
+   * @param {Array} array The array to query.
+   * @returns {*} Returns the last element of array.
+   */
+  last: function(array) {
+    return array.pop()
+  },
+
+
 }
-var objects = [{ 'n': 4 }, { 'n': 2 }, { 'n': 8 }, { 'n': 6 }];
-console.log(zyycode.sumBy(objects, function(o) { return o.n; }))
-console.log(zyycode.sum([]));
