@@ -15,7 +15,6 @@ function arrayToList(array) {
   // nodes[nodes.length - 1].next = null
   return nodes[0]
 }
-console.log(arrayToList([1, 2, 3, 4, 5]))
 
 function arrayToList(array) {
   let node
@@ -101,3 +100,19 @@ function forEachDigit(n, action) {
 forEachDigit(12345, d => {
   console.log(d)
 })
+
+function filter(ary, test) {
+  let res = []
+  for (let i = 0; i < ary.length; i++) {
+    res.push(test(i))/*?*/
+  }
+  return res
+}
+console.log(filter([1,2,3], n => n))
+
+function reduce(array, reducer, initVal) {
+  for (let i = 0; i < array.length; i++) {
+    initVal = reducer(initVal, array[i], i, array)
+  }
+  return initVal
+}
