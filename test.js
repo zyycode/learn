@@ -1,61 +1,3 @@
-function arrayToList(array) {
-  if (array.length === 0) {
-    return null
-  }
-  let nodes = []
-  for (let i = 0; i < array.length; i++) {
-    let node = {}
-    node.value = array[i]
-    node.next = null
-    nodes.push(node)
-  }
-  for (let i = 0; i < nodes.length - 1; i++) {
-    nodes[i].next = nodes[i + 1]
-  }
-  // nodes[nodes.length - 1].next = null
-  return nodes[0]
-}
-
-function arrayToList(array) {
-  let node
-  let head = {
-    value: array[0],
-    next: null,
-  }
-  let pnode = head
-
-  for (let i = 1; i < array.length; i++) {
-    node = {value: array[i], next: null}
-    pnode.next = node
-    pnode = node
-  }
-  return head
-}
-function arrayToList(array, start = 0) {
-  if (start === array.length) {
-    return null
-  }
-  let node = {
-    value: array[0],
-    next: null,
-  }
-  node.next
-  return arrayToList(array, start + 1)
-  node.next = node
-}
-
-
-function listToArray(list) {
-  if (!list) {
-    return []
-  }
-  let array = []
-  while (list.next !== null) {
-    array.push(list.value)
-    list = list.next
-  }
-  return array
-}
 
 function insert(head, n, value) {
   let node = {
@@ -104,7 +46,7 @@ forEachDigit(12345, d => {
 function filter(ary, test) {
   let res = []
   for (let i = 0; i < ary.length; i++) {
-    res.push(test(i))/*?*/
+    res.push(test(i))
   }
   return res
 }
@@ -115,4 +57,60 @@ function reduce(array, reducer, initVal) {
     initVal = reducer(initVal, array[i], i, array)
   }
   return initVal
+}
+
+
+/* let ancestry = [{
+  name: 'aa',
+  age: 13,
+}, {
+  name: 'bb',
+  age: 14,
+}]
+
+{
+  'aa' = {
+    name: 'aa',
+    age: 13,
+  },
+  'bb' = {
+    name: 'bb',
+    age: 14,
+  }
+} */
+function keyBy(ary, key) {
+  let obj = {}
+  for (let item of ary) {
+    obj[item[key]] = people
+  }
+}
+
+// [{},{},{},{},...]
+
+function groupBy(ary, propName) {
+  let map = {}
+
+  // for (let item of ary) {
+  //   if (item[propName] in map) {
+  //     map[item[propName]].push(item)
+  //   } else {
+  //     map[item[propName]] = [item]
+  //   }
+  // }
+  for (let item of ary) {
+    let key = item[propName]
+    if (item[propName] in map) {
+      map[key].push(item)
+    } else {
+      map[key] = [item]
+    }
+  }    
+  return map
+}
+console.log(groupBy([{age: 1}, {age: 1}, {age: 2}], 'age'))
+
+function unary(func) {
+  return function(value) {
+    func(value)
+  }
 }
