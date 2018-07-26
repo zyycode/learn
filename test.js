@@ -40,7 +40,7 @@ function forEachDigit(n, action) {
   } while (n > 0)
 }
 forEachDigit(12345, d => {
-  console.log(d)
+  // console.log(d)
 })
 
 function filter(ary, test) {
@@ -50,7 +50,7 @@ function filter(ary, test) {
   }
   return res
 }
-console.log(filter([1,2,3], n => n))
+
 
 function reduce(array, reducer, initVal) {
   for (let i = 0; i < array.length; i++) {
@@ -107,10 +107,36 @@ function groupBy(ary, propName) {
   }    
   return map
 }
-console.log(groupBy([{age: 1}, {age: 1}, {age: 2}], 'age'))
+// console.log(groupBy([{age: 1}, {age: 1}, {age: 2}], 'age'))
 
 function unary(func) {
   return function(value) {
     func(value)
   }
 }
+
+let ary = {
+  0: 1,
+  1: 2,
+  2: 3,
+  3: 4,
+  _length: 4,
+  push: function(val) {
+    this[this._length++] = val
+  },
+  get length() {
+    return this._length
+  },
+  set length(len) {
+    if (len < this._length) {
+      for (let i = len; i < this._length; i++) {
+        delete this[i]
+      }
+    }
+    this._length = len
+  },
+}
+console.log(ary.push(4))
+console.log(ary.length = 2)
+console.log(ary)
+console.log(ary.length)

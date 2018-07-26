@@ -172,6 +172,4 @@ var zyycode = {
   last: function(array) {
     return array.pop()
   },
-
-
 }

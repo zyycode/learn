@@ -22,7 +22,6 @@ function arrayToList(array) {
   }
   return nodes[0]
 }
-
 /**
  * @description
  * 数组->链表：使用指针操作
@@ -129,7 +128,12 @@ function nth(head, n) {
   if (p == null) return null
   return p.val
 }
-console.log(nth(arrayToList([1,null,2,3,4]),6));
+// 递归实现
+function nth2(head, n) {
+  if (head == null) return null
+  if (n === 0) return head.val
+  return nth(head.next, n - 1)
+}
 /**
  * @description
  * 向链表中插入某一结点，插入时需要注意建立链接的顺序
@@ -221,4 +225,3 @@ function reverseList(head) {
   }
   return p2
 }
-console.log(reverseList(arrayToList([1,2,3])))
