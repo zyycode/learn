@@ -33,7 +33,7 @@ var zyycode = {
       }
     }
     return result
-  }, 
+  },
   /**
    * @description
    * Creates a new array concatenating array with any additional arrays 
@@ -47,6 +47,20 @@ var zyycode = {
     let result = array.concat(...values)
     return result
   },
+  /**
+   * @description
+   * Creates an array of array values not included in the other given arrays.
+   * The order and references of result values are determined by the first array.
+   * 
+   * @param {Array} array The array to inspect.
+   * @param {*} values The values to exclude.
+   * @returns {Array} Returns the new array of filtered values.
+   */
+  difference: function(array, ...values) {
+    let rest = [].concat(...values)
+    return array.filter(item => !rest.includes(item))
+  },
+
   /**
    * @description
    * create a slice of array with n elements droppen from the beaginning.
@@ -70,6 +84,19 @@ var zyycode = {
     if (n === 0) return array
     array.splice(-n)
     return array
+  },
+   /**
+   * @description
+   * Fills elements of array with value from start up to, but not including end.
+   * 
+   * @param {Array} array The array to fill.
+   * @param {*} value The value to array with.
+   * @param {number} [start=0] The start position.
+   * @param {number} [end=array.length] The end position.
+   * @returns {Array} Returns array.
+   */
+  fill: function(array, value, start=0, end=array.length) {
+    return array.fill(value, start, end)
   },
   /**
    * @description
@@ -95,17 +122,112 @@ var zyycode = {
   },
   /**
    * @description
-   * Fills elements of array with value from start up to, but not including end.
+   * Get the first element of array.
    * 
-   * @param {Array} array The array to fill.
-   * @param {*} value The value to array with.
-   * @param {number} [start=0] The start position.
-   * @param {number} [end=array.length] The end position.
+   * @param {Array} array The array to query.
+   * @returns {*} Returns the first element of array.
+   */
+  head: function(array) {
+    return array.shift(0)
+  },
+  /**
+   * @description
+   * Gets the index at which the first occurrence of value is found in array. 
+   * If fromIndex is negative, it's used as the offset from the end of array.
+   * 
+   * @param {Array} array The array to inspect.
+   * @param {*} value The value to search for.
+   * @param {number} [fromIndex=0] THe index to search from.
+   * @returns {number} Return the index of the matched value, else -1
+   */
+  indexOf: function(array, value, fromIndex = 0) {
+    return array.indexOf(value, fromIndex)
+  },
+  /**
+   * @description
+   * Converts all elements in array into a string separated by separator.
+   * 
+   * @param {Array} array The array to convert.
+   * @param {string} [separatpor=','] The element separator.
+   * @returns {string} Returns the joined string.
+   */
+  join: function(array, separatpor=',') {
+    return array.join(separatpor)
+  },
+  /**
+   * @description
+   * Get the last element of array.
+   * 
+   * @param {Array} array The array to query.
+   * @returns {*} Returns the last element of array.
+   */
+  last: function(array) {
+    return array.pop()
+  },
+  /**
+   * @description
+   * This method is like _.indexOf except that it iterates 
+   * over elements of array from right to left.
+   * 
+   * @param {Array} array The array to inspect.
+   * @param {*} value The value to search for.
+   * @param {*} [fromIndex=array.length - 1] The index to search from.
+   * @returns {number} Returns the index of the matched value, else -1.
+   */
+  lastIndexOf: function(array, value, fromIndex = array.length - 1) {
+    return array.lastIndexOf(value, fromIndex)
+  },
+  /**
+   * @description
+   * Gets the element at index n of array. 
+   * If n is negative, the nth element from the end is returned.
+   * 
+   * @param {Array} array The array to query.
+   * @param {number} [n=0] The index of the element to return.
+   * @returns {*} Returns the nth element of array.
+   */
+  nth: function(array, n = 0) {
+    if (n < 0) {
+      n = n + array.length
+    }
+    return array[n]
+  },
+  /**
+   * @description
+   * Removes all givens values from array.
+   * 
+   * @param {Array} array The array to modify.
+   * @param {*} values The values to remove.
+   * @returns {Array} Retruns array.
+   */
+  pull: function(array, ...values) {
+    let restArray = [...values]
+    return array.filter(item => !restArray.includes(item))
+  },
+  /**
+   * @description
+   * This method is like _.pull except that it accepts an array of values to remove.
+   * 
+   * @param {Array} array The array to modify.
+   * @param {Array} values The values to remove.
    * @returns {Array} Returns array.
    */
-  fill: function(array, value, start=0, end=array.length) {
-    return array.fill(value, start, end)
+  pullAll: function(array, values) {
+    return array.filter(item => !values.includes(item))
   },
+  /**
+   * @description
+   * Reverses array so that the first element becomes the last, 
+   * the second element becomes the second to last, and so on.
+   * 
+   * @param {Array} array The array to modify.
+   * @returns {Array} Returns array.
+   */
+  reverse: function(array) {
+    return array.reverse()
+  },
+
+
   /**
    * @description
    * Computes the sum in array.
@@ -136,40 +258,78 @@ var zyycode = {
   },
   /**
    * @description
-   * Gets the index at which the first occurrence of value is found in array. 
-   * If fromIndex is negative, it's used as the offset from the end of array.
+   * Creates a slice of array from start up to, but not including, end.
+   * 
+   * @param {Array} array The array to slice.
+   * @param {number} [start=0] The start position.
+   * @param {number} [end=array.length] The end position.
+   * @returns {Array} Returns the slice of array.
+   */
+  slice: function(array, start = 0, end = array.length) {
+    return array.slice(start, end)
+  },
+  /**
+   * @description
+   * Uses a binary search to determine the lowest index at which value
+   * should be inserted into array in order to maintain its sort order.
+   * 
+   * @param {Array} array The sorted array to inspect.
+   * @param {number} value The value to evaluate.
+   * @returns {number} Returns the index at which value should be inserted into array.
+   */
+  sortedIndex: function(array, value) {
+    for (let i = 0; i < array.length; i++) {
+      if (value <= array[i]) {
+        return i
+      }
+    }
+    return array.length
+  },
+  /**
+   * @description
+   * This method is like _.indexOf except that it performs 
+   * a binary search on a sorted array.
    * 
    * @param {Array} array The array to inspect.
    * @param {*} value The value to search for.
-   * @param {number} [fromIndex=0] THe index to search from.
-   * @returns {number} Return the index of the matched value, else -1
+   * @returns {number} Returns the index of the matched value, else -1.
    */
-  indexOf: function(array, value, fromIndex = 0) {
-    return array.indexOf(value, fromIndex)
-  },
-
-  lastIndexOf: function(array, value, fromIndex=array.length - 1) {
-    return array.lastIndexOf(value, fromIndex)
+  sortedIndexOf: function(array, value) {
+    return array.indexOf(value)
   },
   /**
    * @description
-   * Converts all elements in array into a string separated by separator.
+   * This method is like _.sortedIndex except that it 
+   * returns the highest index at which value should be inserted into
+   * array in order to maintain its sort order.
    * 
-   * @param {Array} array The array to convert.
-   * @param {string} [separatpor=','] The element separator.
-   * @returns {string} Returns the joined string.
+   * @param {Array} array The array to inspect.
+   * @param {*} value The value to search for.
+   * @returns {number} Returns the index at which value should be inserted into array.
    */
-  join: function(array, separatpor=',') {
-    return array.join(separatpor)
+  sortedLastIndex: function(array, value) {
+    return array.lastIndexOf(value) + 1
   },
   /**
    * @description
-   * Get the last element of array.
+   * This method is like _.lastIndexOf except that 
+   * it performs a binary search on a sorted array.
+   * 
+   * @param {Array} array The array to inspect.
+   * @param {*} value The value to search for.
+   * @returns {number} Returns the index of the matched value, else -1.
+   */
+  sortedLastIndexOf: function(array, value) {
+    return array.lastIndexOf(value)
+  },
+  /**
+   * @description
+   * Gets all but the last element of array.
    * 
    * @param {Array} array The array to query.
-   * @returns {*} Returns the last element of array.
+   * @returns {Array} Returns the slice of array.
    */
-  last: function(array) {
-    return array.pop()
+  initial: function(array) {
+    return array.slice(0, array.length - 1)
   },
 }
