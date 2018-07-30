@@ -225,3 +225,14 @@ function reverseList(head) {
   }
   return p2
 }
+function reverseList2(head) {
+  let prev = null
+  while (head) {
+    let next = head.next
+    head.next = prev
+    prev = head
+    head = next
+  }
+  return prev
+}
+// console.log(reverseList2(arrayToList([1,2,3,4,5,6,7])))

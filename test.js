@@ -1,4 +1,3 @@
-
 function insert(head, n, value) {
   let node = {
     value: value,
@@ -39,9 +38,9 @@ function forEachDigit(n, action) {
     n = (n - digit) / 10
   } while (n > 0)
 }
-forEachDigit(12345, d => {
-  // console.log(d)
-})
+// forEachDigit(12345, d => {
+//   console.log(d)
+// })
 
 function filter(ary, test) {
   let res = []
@@ -136,7 +135,51 @@ let ary = {
     this._length = len
   },
 }
-console.log(ary.push(4))
-console.log(ary.length = 2)
-console.log(ary)
-console.log(ary.length)
+// console.log(ary.push(4))
+// console.log(ary.length = 2)
+// console.log(ary)
+// console.log(ary.length)
+
+function unless(test, then) {
+  if (!test) then()
+}
+function repeat(times, body) {
+  for (let i = 0; i < times; i++) body(i)
+}
+function repeatBody(n) {
+  unless(n % 2, function() {
+    console.log(n)
+  })
+}
+repeat(3, repeatBody)
+
+// function forEachDigit(n, action) {
+//   do {
+//     let digit = n % 10
+//     action(digit)
+//     n = (n - digit) / 10
+//   } while (n > 0)
+// }
+// forEachDigit(12345, d => {
+//   console.log(d)
+// })
+
+// function gatherCorrelations(journal) {
+//   var phis = {}
+//   journal.forEach(entry => {
+//     entry.events.forEach(event => {
+//       if (! (event in phis)) {
+//         phis[event] = phi(tableFor(event, journal))
+//       } 
+//     })
+//   })
+//   // for (var entry = 0; entry < journal.length; entry++) {
+//   //   var events = journal[entry].events
+//   //   for (var i = 0; i < events.length; i++) {
+//   //     var event = events[i]
+//   //     if (!(event in phis)) 
+//   //     phis[event] = phi(tableFor(event, journal))
+//   //   }
+//   // }
+//   return phis
+// }

@@ -151,7 +151,7 @@ var zyycode = {
    * @param {string} [separatpor=','] The element separator.
    * @returns {string} Returns the joined string.
    */
-  join: function(array, separatpor=',') {
+  join: function(array, separatpor = ',') {
     return array.join(separatpor)
   },
   /**
@@ -331,5 +331,35 @@ var zyycode = {
    */
   initial: function(array) {
     return array.slice(0, array.length - 1)
+  },
+  /**
+   * @description
+   * Creates a function that accepts up to one argument, ignoring any additional arguments.
+   * 
+   * @param {Function} func The function to cap arguments for.
+   * @param  {Function} Returns the new capped function.
+   */
+  unary: function(func) {
+    return function(val) {
+      return func(val)
+    }
+  },
+  /**
+   * @description
+   * Creates a function that negates the result of the predicate func. 
+   * The func predicate is invoked with the this binding and arguments of the created function.
+   * 
+   * @example
+   * function isMale(p) {return p.gender === 1}
+   * function isFemale(p) {return p.gender !== 1} equals 
+   * isFemale = negate(isMale(p))
+   * 
+   * @param {Function} predicate The predicate to negate.
+   * @returns {Function} Returns the new negated function.
+   */
+  negate: function(predicate) {
+    return function(...args) {
+      return ! predicate(...args)
+    }
   },
 }
