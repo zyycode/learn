@@ -1,5 +1,17 @@
 /**
  * @description
+ * Create random array.
+ * 生成随机数组
+ * 
+ * @param {number} n The number of array.
+ * @returns {Array} Returns the disarray array.
+ */
+function rangeArray(n) {
+  return new Array(n).fill(0).map(item => Math.random() * n | 0)
+}
+
+/**
+ * @description
  * 冒泡排序
  * 优化：内层循环次数依次减少；若已排序好则直接返回
  * 
@@ -7,7 +19,24 @@
  * @returns
  */
 function bubbleSort(array) {
+  let len = array.length
+  for (let i = 0; i < len - 1; i++) {
+    let swaped = false
+    for (let j = 0; j < len - i - 1; j++) {
+      if (array[j] > array[j + 1]) {
+        [array[j], array[j + 1]] = [array[j + 1], array[j]]
+        swaped = true
+      }
+    }
+    if (swaped === false) break
+  }
   return array
+}
+console.log(bubbleSort(rangeArray(10)))
+function swap(array, i, j) {
+  let temp = array[j]
+  array[i] = array[j]
+  array[j] = temp
 }
 /**
  * @description
@@ -30,7 +59,7 @@ function selectSort(array) {
   }
   return array
 }
-// console.log(selectSort([2,1,3,46,1,6,7]));
+// console.log(selectSort([2,1,3,4,6,1,6,7]));
 /**
  * @description
  * 插入排序
@@ -69,9 +98,5 @@ function partition(array) {
 // console.log(randomRange(10))
 
 function  mergeSort(array) {
-  let mid = array.length / 2 | 0
-  let left = array.slice(0, mid)
-  let right = array.slice(mid)
-
   
 }

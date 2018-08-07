@@ -7,13 +7,13 @@ for (var i = 0; i < 7; i++) {
   }
   str += '\n'
 }
-console.log(str)
+// console.log(str)
 
 // ! improved version
 var str = ''
 for (var i = 0; i < 7; i++) {
   str += '#'
-  console.log(str)
+  // console.log(str)
 }
 
 var str = ''
@@ -22,7 +22,7 @@ for (var i = 0; i < 7; i++) {
   str += '#'
   result += (str + '\n')
 }
-console.log(result)
+// console.log(result)
 
 // * Exercises chapter 2.2
 
@@ -471,7 +471,7 @@ for (var i = 0; i < 5; i++) {
   arr.unshift(Number(prompt('第 ' + (i + 1) + ' 个数')))
 }
 
-console.log(arr)
+// console.log(arr)
 
 
 function indexOf(arr, val) {
@@ -496,4 +496,4 @@ function includes(arr, val) {
   }
   return arr.indexOf(arr, val) !== -1
 }
-console.log(includes([1, 2, NaN], NaN))
+// console.log(includes([1, 2, NaN], NaN))
