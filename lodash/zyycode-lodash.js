@@ -95,7 +95,7 @@ var zyycode = {
    * @param {number} [end=array.length] The end position.
    * @returns {Array} Returns array.
    */
-  fill: function(array, value, start=0, end=array.length) {
+  fill: function(array, value, start = 0, end = array.length) {
     return array.fill(value, start, end)
   },
   /**
@@ -109,7 +109,7 @@ var zyycode = {
       return [].concat.apply([], array)
       // ES6 ...
       // return [].concat(...array)
-      // reduce()
+      // use reduce()
       // let newArray = array.reduce((prev, curr) => {
       //   return prev.concat(curr)
       // })
@@ -361,5 +361,140 @@ var zyycode = {
     return function(...args) {
       return ! predicate(...args)
     }
+  },
+  /**
+   * @description
+   * Creates an array of numbers (positive and/or negative) progressing from start up to.
+   * 
+   * @param {number} [start=0] The start of the range.
+   * @param {number} end The end of the range.
+   * @param {number} [step=1] The value to increment of decrement by.
+   * @returns {Array} Returns the range of numbers.
+   */
+  range: function(start = 0, end, step = 1) {
+    let result = []
+    
+    if (arguments.length === 1) {
+      end = start
+      start = 0
+    }
+    if (step === 0) return new Array(Math.abs(end)).fill(1)
+    if (!step) step = end < start ? -1 : 1
+    if (end < 0) step = step < 0 ? step : -step
+    let length = Math.max(Math.ceil((end - start) / step), 0)
+
+    for (let i = 0; i < length; i++, start += step) {
+      result.push(start)
+    }
+    return result
+  },
+  /**
+   * @description
+   * Performs a deep comparsion between two values to determine if they are equivalent.
+   * 
+   * @param {*} value The value to compare.
+   * @param {*} other The other to compare.
+   * @returns {boolean} Returns true if two values are equivalent, else false.
+   */
+  isEqual: function(value, other) {
+    if (value === other) return true
+    // judge `NaN`
+    if (value !== value && other !== other) return true
+    // judge `Array`
+    if (Array.isArray(value) && Array.isArray(other)) {
+      let maxLen = Math.max(value.length, other.length)
+      for (let i = 0; i < maxLen; i++) {
+        if (! this.isEqual(value[i], other[i])) return false
+      }
+      return true
+    }
+    // judge `Object`
+    if (typeof value === 'object' && typeof other === 'object') {
+      let propKeys = Object.keys(value).concat(Object.keys(other))
+      propKeys = [...new Set(propKeys)]
+      for (let p of propKeys) {
+        if (! this.isEqual(value[p], other[p])) return false
+      }
+      return true
+    }
+    return value === other
+  },
+  /**
+   * @description
+   * This method is based on Number.isNaN and is not the same as 
+   * global isNaN which returns true for undefined and other non-number values.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is NaN, else false.
+   */
+  isNaN: function(value) {
+    // return Number.isNaN(Number(value)) && value !== undefined
+    return Object.prototype.toString.call(value) === '[object Number]' && isNaN(value)
+  },
+  /**
+   * @description
+   * Checks if value is classified as a boolean primitive or object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is boolean, else false.
+   */
+  isBooelean: function(value) {
+    return Object.prototype.toString.call(value) === '[object Boolean]'
+  },
+
+  // isNative: function(value) {
+  //   return Function.prototype.toString.call(value).indexOf('[native code]') === -1 ? false : true
+  // },
+  /**
+   * @description
+   * Checks if value is null or undefined.
+   * 
+   * @param {*} value  The value to check.
+   * @returns {boolean} Returns true if value is nullish, else false.
+   */
+  isNil: function(value) {
+    return value == null
+  },
+  /**
+   * @description
+   * Checks if value is null.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is null, else false.
+   */
+  isNull: function(value) {
+    return value === null
+  },
+  /**
+   * @description
+   * Checks if value is classified as a Number primitive or object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is a number, else false.
+   */
+  isNumber: function(value) {
+    return typeof value === 'number' || Object.prototype.toString.call(value) === '[object Number]'
+  },
+  /**
+   * @description
+   * Checks if value is the language type of Object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is an object, else false.
+   */
+  isObject: function(value) {
+    let type = typeof value
+    return value !== null && (type === 'object' || type === 'function')
+  },
+  /**
+   * @description
+   * Checks if value is object-like. 
+   * A value is object-like if it's not null and has a typeof result of "object".
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value if object-like, or else.
+   */
+  isObjectLike: function(value) {
+    return value !== null && typeof value === 'object'
   },
 }
