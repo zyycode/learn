@@ -497,4 +497,83 @@ var zyycode = {
   isObjectLike: function(value) {
     return value !== null && typeof value === 'object'
   },
+  /**
+   * @description
+   * Gets the size of collection by returning its length for array-like values or 
+   * the number of own enumerable string keyed properties for objects.
+   * 
+   * @param {*} collection The collection to inspect.
+   * @returns {number} Returns collection size.
+   */
+  size: function(collection) {
+    if (typeof collection === 'string' || Array.isArray(collection)) return collection.length
+    if (typeof collection === 'object') return Object.keys(collection).length
+  },
+  /**
+   * @description
+   * Checks if value is greater than other.
+   * 
+   * @param {*} value The value to compare.
+   * @param {*} other The other to compare.
+   * @returns {boolean} Returns true if value greater than other, else false.
+   */
+  gt: function(value, other) {
+    if ((Array.isArray(value) && value.length > 1) || (Array.isArray(value) && value.length > 1)) return false
+    return value > other
+  },
+  /**
+   * @description
+   * Checks if value is greater than or equal to other.
+   * 
+   * @param {*} value The value to compare.
+   * @param {*} other The other to compare.
+   * @returns {boolean} Returns true if value greater than or equal to other, else false.
+   */
+  gte: function(value, other) {
+    if ((Array.isArray(value) && value.length > 1) || (Array.isArray(value) && value.length > 1)) return false
+    return value >= other
+  },
+  /**
+   * @description
+   * Checks if value is likely an arguments object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is arguments object, else false.
+   */
+  isArguments: function(value) {
+    if (Array.isArray(value)) return false
+    if (typeof value === 'object' || typeof value === 'function') return true
+    return false
+  },
+  /**
+   * @description
+   * Checks if value is classified as an Array object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is an Array, else false.
+   */
+  isArray: function(value) {
+    return Array.isArray(value)
+  },
+  /**
+   * @description
+   * Checks if value is array-like.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean}  Returns true if value is array-like, else false.
+   */
+  isArrayLike: function(value) {
+    if (value.length === undefined) return false
+    return (value.length >= 0 && value.length <= Number.MAX_SAFE_INTEGER)
+  },
+  /**
+   * @description
+   * Checks if value is classified as a boolean primitive or object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is a boolean, else false.
+   */
+  isBoolean: function(value) {
+    return Object.prototype.toString.call(value) === '[object Boolean]'
+  },
 }
