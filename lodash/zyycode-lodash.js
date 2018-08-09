@@ -226,8 +226,6 @@ var zyycode = {
   reverse: function(array) {
     return array.reverse()
   },
-
-
   /**
    * @description
    * Computes the sum in array.
@@ -331,6 +329,39 @@ var zyycode = {
    */
   initial: function(array) {
     return array.slice(0, array.length - 1)
+  },
+  /**
+   * @description
+   * Gets all but the first element of array.
+   * 
+   * @param {Array} array The array to query.
+   * @returns {Array} Returns the slice of array.
+   */
+  tail: function(array) {
+    return array.slice(1)
+  },
+  /**
+   * @description
+   * Creates a slice of array with n elements taken from the beginning.
+   * 
+   * @param {Array} array The array to query.
+   * @param {number} [n=1] The number of elements to take.
+   * @returns {Array} Returns the slice of array.
+   */
+  take: function(array, n = 1) {
+    return array.slice(0, n)
+  },
+  /**
+   * @description
+   * Creates a slice of array with n elements taken from the end.
+   * 
+   * @param {Array} array The array to query.
+   * @param {number} [n=1] The number of elements to take.
+   * @returns {Array} Returns the slice of array.
+   */
+  takeRight: function(array, n = 1) {
+    if (n === 0) return []
+    return array.slice(-n)
   },
   /**
    * @description
