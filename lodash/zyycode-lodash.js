@@ -607,4 +607,111 @@ var zyycode = {
   isBoolean: function(value) {
     return Object.prototype.toString.call(value) === '[object Boolean]'
   },
+  /**
+   * @description
+   * Add two numbers.
+   * 
+   * @param {number} augend The first number in an addition.
+   * @param {number} addend The second number in an addition.
+   * @returns {number} Returns the total.
+   */
+  add: function(augend, addend) {
+    return augend + addend
+  },
+  /**
+   * @description
+   * Computes number rounded up to precision.
+   * 
+   * @param {number} number The number to round up.
+   * @param {number} [precision=0] The precision to round up.
+   * @returns {number} Returns the rounded up number.
+   */
+  ceil: function(number, precision = 0) {
+    return Math.ceil(number * Math.pow(10, precision)) / Math.pow(10, precision)
+  },
+  /**
+   * @description
+   * Divide two numbers.
+   * 
+   * @param {number} dividend The first number in a division.
+   * @param {number} divisor The second number in a division.
+   * @returns {number} Returns the quotient.
+   */
+  divide: function(dividend, divisor) {
+    return dividend / divisor
+  },
+  /**
+   * @description
+   * Computes number rounded down to precision.
+   * 
+   * @param {number} number The number to round down.
+   * @param {number} [precision=0] The precision to round down to.
+   * @returns {number} Returns the rounded down number.
+   */
+  floor: function(number, precision = 0) {
+    return Math.floor(number * Math.pow(10, precision)) / Math.pow(10, precision)
+  },
+  /**
+   * @description
+   * Computed the maximum value of array. If array is empty of falsey, undefined returned.
+   * 
+   * @param {Array} array The array to iterate over.
+   * @returns {*} Returns the maximum value.
+   */
+  max: function(array) {
+    if (!array || array.length === 0) return undefined
+    return Math.max(...array)
+  },
+  /**
+   * @description
+   * Computes the mean of values in array.
+   * 
+   * @param {Array} array The array to iterate over.
+   * @returns {number} Returns the mean.
+   */
+  mean: function(array) {
+    return array.reduce((a, b) => a + b) / array.length
+
+    // return this.sum(array) / array.length
+
+    // let len = array.length
+    // let sum = 0
+    // for (let i = 0; i < len; i++) {
+    //   sum += array[i]
+    // }
+    // return sum / len
+  },
+  /**
+   * @description
+   * Computes the minimum value of array. If array is empty or falsey, undefined is returned.
+   * 
+   * @param {Array} array The array to iterate over.
+   * @returns {*} Returns the minimum value.
+   */
+  min: function(array) {
+    if (!array || array.length === 0) return undefined
+    return Math.min(...array)
+  },
+  /**
+   * @description
+   * Multiply two numbers.
+   * 
+   * @param {number} multiplier The first number in a multiplication.
+   * @param {number} multiplicand The second number in a multiplication.
+   * @returns {number} Returns the product.
+   */
+  multiply: function(multiplier, multiplicand) {
+    return multiplier * multiplicand
+  },
+  /**
+   * @description
+   * Computes number rounded to precision.
+   * 
+   * @param {number} number The number to round.
+   * @param {number} [precision=0] The precision to round to.
+   * @returns {number} Returns the rounded number.
+   */
+  round: function(number, precision = 0) {
+    return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
+  },
 }
