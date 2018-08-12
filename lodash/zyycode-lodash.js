@@ -115,7 +115,7 @@ var zyycode = {
     // })
     // return newArray()
   },
-
+  // !TODO
   flattenDeep: function(array) {
     // if (!Array.isArray(array)) return array
     // return this.flattenDeep(array)
@@ -442,7 +442,7 @@ var zyycode = {
       return true
     }
     // judge `Object`
-    if (typeof value === 'object' && typeof other === 'object') {
+    if (this.isObject(value) && this.isObject(other) && !(Array.isArray(value) || Array.isArray(other))) {
       let propKeys = Object.keys(value).concat(Object.keys(other))
       propKeys = [...new Set(propKeys)]
       for (let p of propKeys) {
@@ -574,9 +574,7 @@ var zyycode = {
    * @returns {boolean} Returns true if value is arguments object, else false.
    */
   isArguments: function(value) {
-    if (Array.isArray(value)) return false
-    if (typeof value === 'object' || typeof value === 'function') return true
-    return false
+    return Object.prototype.toString.call(value) === '[object Arguments]'
   },
   /**
    * @description
@@ -716,5 +714,19 @@ var zyycode = {
   round: function(number, precision = 0) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
   },
-  
+  /**
+   * @description
+   * Creates an array of unique values, in order, from given arrays.
+   * 
+   * @param {Array} arrays The array to inspect.
+   * @returns {Array} Returns the new array of combined values.
+   */
+  union: function(...arrays) {
+    let res = [].concat(this.flatten(arrays))
+    return [...new Set(res)]
+  },
+  // ! TODO
+  unionBy: function(arrays, iteratee) {
+     
+  },
 }
