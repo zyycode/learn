@@ -532,6 +532,36 @@ var zyycode = {
   },
   /**
    * @description
+   * Checks if value is classified as a Set object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is a set, else false.
+   */
+  isSet: function(value) {
+    return Object.prototype.toString.call(value) === '[object Set]'
+  },
+  /**
+   * @description
+   * Checks if value is classified as a String primitive or object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if the value is string, else false.
+   */
+  isString: function(value) {
+    return Object.prototype.toString.call(value) === '[object String]'
+  },
+  /**
+   * @description
+   * Checks if value is classified as a Symbol primitive or object.
+   * 
+   * @param {*} value The value to check.
+   * @returns {boolean} Returns true if value is a symbol, else false.
+   */
+  isSymbol: function(value) {
+    return Object.prototype.toString.call(value) === '[object Symbol]'
+  },
+  /**
+   * @description
    * Gets the size of collection by returning its length for array-like values or 
    * the number of own enumerable string keyed properties for objects.
    * 
@@ -727,6 +757,7 @@ var zyycode = {
   },
   // ! TODO
   unionBy: function(arrays, iteratee) {
-     
+    
   },
 }
+console.log(zyycode.isString(1))
