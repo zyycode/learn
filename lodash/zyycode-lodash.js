@@ -70,7 +70,7 @@ var zyycode = {
    * @returns {Array} Returns the slice of array.
    */
   drop: function(array, n = 1) {
-      return array.slice(n) 
+    return array.slice(n) 
   },
   /**
    * @description
@@ -106,14 +106,14 @@ var zyycode = {
    * @returns {Array} Returns the new flattened array.
    */
   flatten: function(array) {
-      return [].concat.apply([], array)
-      // ES6 ...
-      // return [].concat(...array)
-      // use reduce()
-      // let newArray = array.reduce((prev, curr) => {
-      //   return prev.concat(curr)
-      // })
-      // return newArray()
+    return [].concat.apply([], array)
+    // ES6 ...
+    // return [].concat(...array)
+    // use reduce()
+    // let newArray = array.reduce((prev, curr) => {
+    //   return prev.concat(curr)
+    // })
+    // return newArray()
   },
 
   flattenDeep: function(array) {
@@ -382,7 +382,9 @@ var zyycode = {
    * 
    * @example
    * function isMale(p) {return p.gender === 1}
-   * function isFemale(p) {return p.gender !== 1} equals 
+   * 
+   * function isFemale(p) {return p.gender !== 1} 
+   * equals:
    * isFemale = negate(isMale(p))
    * 
    * @param {Function} predicate The predicate to negate.
@@ -714,4 +716,5 @@ var zyycode = {
   round: function(number, precision = 0) {
     return Math.round(number * Math.pow(10, precision)) / Math.pow(10, precision)
   },
+  
 }

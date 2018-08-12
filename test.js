@@ -50,14 +50,12 @@ function filter(ary, test) {
   return res
 }
 
-
 function reduce(array, reducer, initVal) {
   for (let i = 0; i < array.length; i++) {
     initVal = reducer(initVal, array[i], i, array)
   }
   return initVal
 }
-
 
 /* let ancestry = [{
   name: 'aa',
@@ -83,7 +81,6 @@ function keyBy(ary, key) {
     obj[item[key]] = people
   }
 }
-
 // [{},{},{},{},...]
 
 function groupBy(ary, propName) {
@@ -332,3 +329,93 @@ function descript(val, f) {
 //   })
 // })
 //-------------------------------------------------------------------
+/** 回溯算法
+ * 对于一个数组，取出数组内相加为 target 值的元素
+ * 
+ * example:
+ * input: [15, 3, 10, 12, 5] target = 15
+ * output: [15] [3, 12] [10, 5]
+ */
+
+var items = []
+var sum = ary => ary.reduce((a, b) => a + b)
+var ary = new Array(50).fill(0).map(item => Math.random() * 50 | 0)
+
+function targetSum(array, target, start = 0) {
+  for (let i = start; i < array.length; i++) {
+    items.push(array[i])
+    if (sum(items) === target) {
+      console.log(items)
+    } else if (sum(items) < target) {
+      targetSum(array, target, i + 1)
+    }
+    items.pop()
+  }
+}
+// targetSum(ary, 30, 0)
+//-------------------------------------------------------------------
+
+// EloquentJS Book Page  177.
+// The second argument replace is function 
+var stock = "1 lemon, 2 cabbages, and 101 eggs"
+
+function minusOne(match, amount, unit) {
+  amount = Number(amount) - 1
+  if (amount === 1) {
+    unit = unit.slice(0, unit.length - 1)
+  } else if (amount === 0) {
+    amount = 'No'
+  }
+  return amount + ' ' + unit
+}
+// console.log(stock.replace(/(\d+) (\w+)/g, minusOne))
+//-------------------------------------------------------------------
+// String raw 的实现
+function raw(parts, ...insections) {
+  return parts.raw.reduce((result, part, i) => {
+    return result + insections[i - 1] + part
+  })
+}
+raw`\\${3 + 2}\\`
+// console.log(raw`\\${3 + 2}\\`)
+//-------------------------------------------------------------------
+
+/**
+ *! 正则表达式
+ ** RegExp.test  
+ * eg: reg.test(str)
+ * 判断 str 中是否有匹配 reg 的模式。
+ * 
+ ** RegExp.exec
+ * eg: reg.exec(str)
+ * 在 str 中匹配 reg。如果能找到匹配，则返回匹配及捕获的数组，同时数组上的 index 属性表示匹配开始的位置。
+ * 
+ * 以上两个方法在 reg 都有 g 标识时，从 str 的 reg.lastIndex 位置开始匹配。
+ * 
+ ** String.match
+ * str.match(reg)
+ * 如果 reg 没有 g 标志：
+ *   在 str 从头开始查找 reg 的匹配，返回匹配捕获组成的数组，数组中的 index 属性表示匹配开始的位置。
+ *   基本相当于 reg.exec(str) 中 reg 没有 g 的用法(或者有 g 但 reg.lastIndex 为 0)
+ * 如果 reg 有 g 标志：
+ *   返回 str 中 reg 所有匹配组成的数组，每个匹配的完整内容占数组的每一项，reg 的捕获分组不会出现在
+ *   返回的数组中。 
+ * 
+ ** String.search 
+ * eg: str.search(reg)
+ * 在 str 中查找匹配 reg 部分，返回匹配开始的位置，如果找不到，返回 -1。
+ * 
+ ** String.split
+ * eg: str.split(reg)
+ * 按 reg 的匹配将 str 分割成数组，如果 reg 中捕获分组，则捕获分组会按序出现在相应分割的位置。
+ * 
+ ** String.replace
+ * eg: str.replace(reg)
+ * reg 如果没有 g ，则只替换第一个匹配，有 g 则替换所有匹配。
+ * 第一个参数如果为字符串，则仅替换第一个匹配。
+ * 第二个参数为字符串时，字符串中的 $1, $2, $3...会分别代表正则的每个捕获，$& 代表整个正则匹配的内容。
+ * 第二个参数如果是函数，则对于每个匹配，函数的返回值将作为被替换元素插入字符串的相应位置，函数每次运行
+ * 时接受的参数为 reg.exec(str) 返回的数组每一项。
+ */
+//-------------------------------------------------------------------
+

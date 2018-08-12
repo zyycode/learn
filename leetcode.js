@@ -24,7 +24,7 @@ function addStrings(num1, num2) {
   }
   return res.split('').reverse().join('')
 }
-console.log(addStrings('123', '123'));
+// console.log(addStrings('123', '123'))
 /**
  * 387. First Unique Character in a String
  */
@@ -48,7 +48,8 @@ function firstUniqChar(s) {
   }
   return -1
 }
-console.log(firstUniqChar('loveleetcode'))
+// console.log(firstUniqChar('loveleetcode'))
+
 function firstUniqChar(s) {
   for (var i = 0; i < s.length; i++) {
     if (s.indexOf(s[i]) === s.lastIndexOf(s[i])) {
@@ -143,7 +144,7 @@ function addBinary(a, b) {
   }
   return str.split('').reverse().join('')
 }
-console.log(addBinary('11', '1'))
+// console.log(addBinary('11', '1'))
 
 // 58. Length of Last Word
 
@@ -162,4 +163,50 @@ function lengthOfLastWord(s) {
   }
   return count
 }
-console.log(lengthOfLastWord('hello world'))
+// console.log(lengthOfLastWord('hello world'))
+// 回溯算法
+/**
+ * Input: "25525511135"
+ * Output: ["255.255.11.135", "255.255.111.35"]
+ */
+function restoreIpAddresses(s, parts = [], result = []) {
+  if (parts.length === 3) {
+    if (s <= 255) {
+      parts.push(s)
+      result.push(parts.join('.'))
+      parts.pop()
+    } else {
+      return
+    }
+  }
+  for (let i = 1; i <= 3 && i <= s.length; i++) {
+    let part = s.slice(0, i) 
+    if (part <= 255) {
+      parts.push(part)
+      restoreIpAddresses(s.slice(i), parts, result)
+      parts.pop()
+    }
+  }
+  return result
+}
+// console.log(restoreIpAddresses('25525511135'))
+//-------------------------------------------------------------------
+
+function merge(nums1, m, nums2, n) {
+  let i = m - 1
+  let j = n - 1
+  let k = m + n - 1
+  while (i >= 0 && j >= 0) {
+    if (nums1[i] > nums2[j]) 
+      nums1[k--] = nums1[i--]
+    else 
+      nums1[k--] = nums2[j--]
+  }
+  while (j >= 0) {
+    nums1[k--] = nums2[j--]
+  }
+  return nums1
+}
+// merge([1,2,3],3,[2,4,5],3)
+//-------------------------------------------------------------------
+
