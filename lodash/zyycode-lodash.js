@@ -411,7 +411,7 @@ var zyycode = {
       end = start
       start = 0
     }
-    if (step === 0) return new Array(Math.abs(end)).fill(1)
+    if (step === 0) return new Array(Math.abs(end) - start).fill(1)
     if (!step) step = end < start ? -1 : 1
     if (end < 0) step = step < 0 ? step : -step
     let length = Math.max(Math.ceil((end - start) / step), 0)
@@ -581,7 +581,8 @@ var zyycode = {
    * @returns {boolean} Returns true if value greater than other, else false.
    */
   gt: function(value, other) {
-    if ((Array.isArray(value) && value.length > 1) || (Array.isArray(value) && value.length > 1)) return false
+    if ((Array.isArray(value) && value.length > 1) 
+        || (Array.isArray(value) && value.length > 1)) return false
     return value > other
   },
   /**
@@ -593,7 +594,8 @@ var zyycode = {
    * @returns {boolean} Returns true if value greater than or equal to other, else false.
    */
   gte: function(value, other) {
-    if ((Array.isArray(value) && value.length > 1) || (Array.isArray(value) && value.length > 1)) return false
+    if ((Array.isArray(value) && value.length > 1) 
+        || (Array.isArray(value) && value.length > 1)) return false
     return value >= other
   },
   /**
@@ -684,7 +686,7 @@ var zyycode = {
   /**
    * @description
    * Computed the maximum value of array. If array is empty of falsey, undefined returned.
-   * 
+   * #abb2bf #82AAFF
    * @param {Array} array The array to iterate over.
    * @returns {*} Returns the maximum value.
    */
@@ -759,5 +761,77 @@ var zyycode = {
   unionBy: function(arrays, iteratee) {
     
   },
+  /**
+   * @description
+   * Converts values to array.
+   * 
+   * @param {*} value The value to convert.
+   * @returns {Array} Returns the converted array.
+   */
+  toArray: function(value) {
+    let res = []
+    for (let i in value) {
+      res.push(value[i])
+    }
+    return res
+  },
+  /**
+   * @description
+   * Repeats the string n times.
+   * 
+   * @param {string} [string=''] The string to repeat.
+   * @param {number} [n=1] The number of times to repeat string.
+   * @returns {string} Returns the repeated string.
+   */
+  repeat: function(string = '', n = 1) {
+    let res = ''
+    for (let i = 0; i < n; i++) {
+      res += string
+    }
+    return res
+  },
+  /**
+   * @description
+   * Replaces matches for pattern in string with replacement.
+   * 
+   * @param {string} [string=''] The string to modify.
+   * @param {RegExp|string} pattern The pattern to replace.
+   * @param {Function|string} replacement The match replacement.
+   * @returns {string} Returns the modified string.
+   */
+  replace: function(string = '', pattern, replacement) {
+    return string.replace(pattern, replacement)
+  },
+  /**
+   * @description
+   * Splits string by separator.
+   * 
+   * @param {string} [string=''] The string to split.
+   * @param {RegExp|string} separetor The separator pattern to split by.
+   * @param {number} limit The length to truncate results to.
+   * @returns {Array} Returns the string segments.
+   */
+  split: function(string = '', separetor, limit) {
+    return string.split(separetor, limit)
+  },
+  /**
+   * @description
+   * Converts string, as a whole, to lower case just like String#toLowerCase.
+   * 
+   * @param {string} [string=''] The string to convert.
+   * @returns {string} Returns the lower cased string.
+   */ 
+  toLower: function(string = '') {
+    return string.toLowerCase()
+  },
+  /**
+   * @description
+   * Converts string, as a whole, to upper case just like String#toUpperCase.
+   * 
+   * @param {string} [string=''] The string to convert.
+   * @returns {string} Returns the upper cased string.
+   */
+  toUpper: function(string = '') {
+    return string.toUpperCase()
+  },
 }
-console.log(zyycode.isString(1))

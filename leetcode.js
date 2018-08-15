@@ -191,22 +191,34 @@ function restoreIpAddresses(s, parts = [], result = []) {
 }
 // console.log(restoreIpAddresses('25525511135'))
 //-------------------------------------------------------------------
-
-function merge(nums1, m, nums2, n) {
-  let i = m - 1
-  let j = n - 1
-  let k = m + n - 1
+/**
+ * @description
+ * merge the second sorted array to first sorted array, and in order.
+ * return the first array.
+ * 
+ * @example
+ * Input: [1,3,5] [2,4,6]
+ * Output: [1,2,3,4,5,6]
+ * 
+ * @param {Array} A The first sorted array.
+ * @param {Array} B The second sorted array.
+ * @returns {Array} Returns the A array.
+ */
+function merge2(A, B) {
+  let i = A.length - 1
+  let j = B.length - 1
+  let k = (A.length + B.length) - 1
   while (i >= 0 && j >= 0) {
-    if (nums1[i] > nums2[j]) 
-      nums1[k--] = nums1[i--]
-    else 
-      nums1[k--] = nums2[j--]
+    if (A[i] > B[j]) {
+      A[k--] = A[i--]
+    } else {
+      A[k--] = B[j--]
+    }
   }
   while (j >= 0) {
-    nums1[k--] = nums2[j--]
+    A[k--] = B[j--]
   }
-  return nums1
+  return A
 }
-// merge([1,2,3],3,[2,4,5],3)
+// console.log(merge2([1,3,5], [2,4,6]))
 //-------------------------------------------------------------------
-

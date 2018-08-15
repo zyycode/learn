@@ -339,7 +339,7 @@ function descript(val, f) {
 
 var items = []
 var sum = ary => ary.reduce((a, b) => a + b)
-var ary = new Array(50).fill(0).map(item => Math.random() * 50 | 0)
+var aryRandom = new Array(50).fill(0).map(item => Math.random() * 50 | 0)
 
 function targetSum(array, target, start = 0) {
   for (let i = start; i < array.length; i++) {
@@ -352,7 +352,7 @@ function targetSum(array, target, start = 0) {
     items.pop()
   }
 }
-// targetSum(ary, 30, 0)
+// targetSum(aryRandom, 30, 0)
 //-------------------------------------------------------------------
 
 // EloquentJS Book Page  177.
@@ -418,4 +418,132 @@ raw`\\${3 + 2}\\`
  * 时接受的参数为 reg.exec(str) 返回的数组每一项。
  */
 //-------------------------------------------------------------------
+// filter map reduce 的实现
+function filter(array, test) {
+  let passed = []
+  for (let i = 0; i < array.length; i++) {
+    if (test(array[i])) {
+      passed.push(array[i])
+    } 
+  }
+  return passed
+}
 
+// use reduce to achieve filter
+function filter2(array, test) {
+  return array.reduce((result, item, index, ary) => {
+    if (test(item, index, ary)) {
+      result.push(item)
+    }
+    return result
+  }, [])
+}
+
+function map(array, mapper) {
+  let mapped = []
+  for (let i = 0; i < array.length; i++) {
+    mapped.push(mapper(array[i]))
+  }
+  return mapped
+}
+
+// use reduce to achieve map
+function map2(array, mapper) {
+  return array.reduce((result, item, index, array) => {
+    result.push(mapper(item, index, array))
+    return result
+  }, [])
+}
+
+// console.log(map2([1,2,3], item => item * 2))
+
+function reduce(array, reducer, initialValue) {
+  let i = 0
+  if (arguments.length === 2) {
+    initialValue = array[0]
+    i = 1
+  }
+  for (; i < array.length; i++) {
+    initialValue = reducer(initialValue, array[i])
+  }
+  return initialValue
+}
+// console.log(reduce([1,2,3,4], (a, b) => a + b))
+//-------------------------------------------------------------------
+// DOM
+function talkAbout(node, text) {
+  for (let el of node.childNodes) {
+    if (el.nodeType === document.ELEMENT_NODE) {
+      if (talkAbout(el, text)) {
+        return true
+      }
+    } else if (el.nodeType === document.TEXT_NODE)  {
+      if (el.nodeValue.indexOf(text) >= 0) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
+function getElementByTagName(node, tagName, result = []) {
+  tagName = tagName.toUpperCase()
+  for (let child of node.children) {
+    if (child.tagName === tagName) {
+      result.push(child)
+    }
+    getElementByTagName(child, tagName, result)
+  }
+  return result
+}
+
+function getElementById(id, node = document.documentElement) {
+  if (node.id === id) {
+    return node
+  } else {
+    for (let child of node.children) {
+      let result = getElementById(id, child)
+      if (result) {
+        return result
+      }
+    }
+  }
+  return null
+}
+
+function replaceImg() {
+  let images = document.body.getElementsByTagName('img')
+  for (let i = images.length - 1; i >= 0; i--) {
+    let image = images[i]
+    if (image.alt) {
+      let text = document.createTextNode(image.alt)
+      image.parentNode.removeChild(text, images)
+    }
+  }
+}
+
+function elt(tagName, ...children) {
+  let node = document.createElement(tagName)
+  children.forEach(child => {
+    if (typeof child === 'string') 
+      child = document.createTextNode(child)
+    node.appendChild(child)
+  })
+  return node
+}
+elt('a', elt('b', 'foo', elt('c', 'bar')))
+
+function t(parts) {
+  let node = document.createElement('div')
+  node.innerHTML = parts.join('')
+  return node.firstElementChild
+}
+t`
+  <a>
+    <b>
+      'foo'
+      <i>bar</i>
+    </b>
+  </a>
+`
+//-------------------------------------------------------------------
