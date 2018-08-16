@@ -115,10 +115,32 @@ var zyycode = {
     // })
     // return newArray()
   },
-  // !TODO
   flattenDeep: function(array) {
-    // if (!Array.isArray(array)) return array
-    // return this.flattenDeep(array)
+    let res = []
+    for (let i = 0; i < array.length; i++) {
+      if (Array.isArray(array[i])) {
+        let tmp = this.flattenDeep(array[i])
+        res = [...res, ...tmp]
+      } else {
+        res.push(array[i])
+      }
+    }
+    return res
+  },
+  flattenDepth: function(array, depth = 1) {
+    if (depth === 0) {
+      return [...array]
+    }
+    let res = []
+    for (let i = 0; i < array.length; i++) {
+      if (Array.isArray(array[i])) {
+        let tmp = this.flattenDepth(array[i], depth - 1)
+        res = [...res, ...tmp]
+      } else {
+        res.push(array[i])
+      }
+    }
+    return res
   },
   /**
    * @description
@@ -833,5 +855,29 @@ var zyycode = {
    */
   toUpper: function(string = '') {
     return string.toUpperCase()
+  },
+  /**
+   * @description
+   * @param {Array|Object} ary The collection to iterate over.
+   * @param {Function} iteratee The iteratee to transform keys.
+   * @returns {Object} Returns the composed aggregate object.
+   */
+  groupBy: function(ary, iteratee) {
+    let map = {}
+    for (let item of ary) {
+      let key
+      if (typeof iteratee === 'string') {
+        key = item[iteratee]
+      } else {
+        key = iteratee(item)
+      }
+
+      if (key in map) {
+        map[key].push(item)
+      } else {
+        map[key] = [item]
+      }
+    }
+    return map
   },
 }

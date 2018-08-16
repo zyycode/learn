@@ -41,70 +41,7 @@ function forEachDigit(n, action) {
 // forEachDigit(12345, d => {
 //   console.log(d)
 // })
-
-function filter(ary, test) {
-  let res = []
-  for (let i = 0; i < ary.length; i++) {
-    res.push(test(i))
-  }
-  return res
-}
-
-function reduce(array, reducer, initVal) {
-  for (let i = 0; i < array.length; i++) {
-    initVal = reducer(initVal, array[i], i, array)
-  }
-  return initVal
-}
-
-/* let ancestry = [{
-  name: 'aa',
-  age: 13,
-}, {
-  name: 'bb',
-  age: 14,
-}]
-
-{
-  'aa' = {
-    name: 'aa',
-    age: 13,
-  },
-  'bb' = {
-    name: 'bb',
-    age: 14,
-  }
-} */
-function keyBy(ary, key) {
-  let obj = {}
-  for (let item of ary) {
-    obj[item[key]] = people
-  }
-}
-// [{},{},{},{},...]
-
-function groupBy(ary, propName) {
-  let map = {}
-
-  // for (let item of ary) {
-  //   if (item[propName] in map) {
-  //     map[item[propName]].push(item)
-  //   } else {
-  //     map[item[propName]] = [item]
-  //   }
-  // }
-  for (let item of ary) {
-    let key = item[propName]
-    if (item[propName] in map) {
-      map[key].push(item)
-    } else {
-      map[key] = [item]
-    }
-  }    
-  return map
-}
-// console.log(groupBy([{age: 1}, {age: 1}, {age: 2}], 'age'))
-
+//-------------------------------------------------------------------
 function unary(func) {
   return function(value) {
     func(value)
@@ -531,19 +468,100 @@ function elt(tagName, ...children) {
   })
   return node
 }
-elt('a', elt('b', 'foo', elt('c', 'bar')))
+// elt('a', elt('b', 'foo', elt('c', 'bar')))
 
 function t(parts) {
   let node = document.createElement('div')
   node.innerHTML = parts.join('')
   return node.firstElementChild
 }
-t`
-  <a>
-    <b>
-      'foo'
-      <i>bar</i>
-    </b>
-  </a>
-`
+// t`
+//   <a>
+//     <b>
+//       'foo'
+//       <i>bar</i>
+//     </b>
+//   </a>
+// `
+//-------------------------------------------------------------------
+/* var ancestry = [
+  {
+    name: 'foo',
+    age: 18,
+  }, {
+    name: 'bar',
+    age: 19,
+  }
+]
+
+{
+  'foo': {
+    name: 'foo',
+    age: 18,
+  },
+  'bar': {
+    name: 'bar',
+    age: 19,
+  }
+} */
+
+function keyBy(ary, key) {
+  let obj = {}
+  for (let item of ary) {
+    obj[item[key]] = item 
+  }
+  return obj
+}
+
+// var ary1 = [
+//   {
+//     name: 'foo',
+//     age: 18,
+//   }, {
+//     name: 'bar',
+//     age: 19,
+//   }
+// ]
+// console.log(keyBy(ary1, 'name'))
+
+// [{},{},{}] => {[{}],[{}],[{}]}
+function groupBy(ary, propName) {
+  let map = {}
+  // for (let item of ary) {
+  //   if (item[propName] in map) {
+  //     map[item[propName]].push(item)
+  //   } else {
+  //     map[item[propName]] = [item]
+  //   }
+  // }
+  for (let item of ary) {
+    let key = item[propName]
+    if (key in map) {
+      map[key].push(item)
+    } else {
+      map[key] = [item]
+    }
+  }
+  return map
+}
+// 使用 reduce 实现 groupBy 函数
+function groupBy(ary, propName) {
+  return ary.reduce((map, item) => {
+    if (item[propName] in map) {
+      map[item[propName]].push(item)
+    } else {
+      map[item[propName]] = [item]
+    }
+    return map
+  }, {})
+}
+// 简化
+function groupBy(ary, propName) {
+  return ary.reduce((map, item) => {
+    let key = item[propName]
+    key in map ? map[key].push(item) : map[key] = [item]
+    return map
+  })
+}
+var groupBy = (ary, propName) => ary.reduce((item, propName, key) => (key = item[propName]), key in map ? map[key].push(item) : map[key] = [item], {})
 //-------------------------------------------------------------------
