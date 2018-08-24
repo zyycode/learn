@@ -4,9 +4,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Shopping Car</title>
+  <title>Event Capture</title>
+  <style>
+    .dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: red;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
-  
+  <!-- <div>
+    <p>
+      <button>Button</button>
+    </p>
+  </div> -->
 </body>
+<script>
+  addEventListener('click', function(e) {
+    let div = document.createElement('div')
+    div.className = 'dot'
+    div.style.top = e.pageY - 4 + 'px'
+    div.style.left = e.pageX - 4 + 'px'
+    document.body.appendChild(div)
+  })
+  // var btn = document.querySelector('button')
+  // var p = document.querySelector('p')
+  // var div = document.querySelector('div')
+
+  // btn.addEventListener('click', function () {
+  //   console.log('btn mao pao')
+  // })
+  // p.addEventListener('click', function () {
+  //   console.log('p mao pao')
+  // })
+  // div.addEventListener('click', function () {
+  //   console.log('div mao pao')
+  // })
+
+  // btn.addEventListener('click', function () {
+  //   console.log('btn bu huo')
+  // }, true)
+  // p.addEventListener('click', function (e) {
+  //   console.log('p bu huo')
+  //   // e.stopPropagation()
+  // }, true)
+  // div.addEventListener('click', function () {
+  //   console.log('div bu huo')
+  // }, true)
+  
+</script>
+
 </html>

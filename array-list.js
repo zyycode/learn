@@ -3,6 +3,8 @@
  * 数组->链表
  * 1. 将数组的每一项的值都传递给 node 结点，并且保存在 nodes 数组中
  * 2. 遍历 nodes 数组，将上一结点指向下一个结点
+ * time: O(n)
+ * space: O(n)
  * 
  * @param {Array} array
  * @returns
@@ -22,10 +24,13 @@ function arrayToList(array) {
   }
   return nodes[0]
 }
+
 /**
  * @description
  * 数组->链表：使用指针操作
  * 构建首结点，通过 pnode node 两个结点来依次递进
+ * time: O(n)
+ * space: O(1)
  * 
  * @param {Array} array
  * @returns
@@ -53,6 +58,8 @@ function arrayToList2(array) {
  * 数组->链表：使用递归来实现
  * 将链表除首结点的剩余部分作为递归返回
  * 结束条件：当传入的 start 为数组的长度时结束，即数组的最后一个元素
+ * time: O(n)
+ * space: O(n)
  * 
  * @param {Array} array
  * @param {number} [start=0]
@@ -68,26 +75,32 @@ function arrayToList3(array, start = 0) {
   node.next = rest
   return node
 }
+
 /**
  * @description
  * 链表->数组
  * 依次遍历链表的每个结点，并将其值传入数组中
+ * time: O(n)
+ * space: O(n)
  * 
- * @param {*} list
+ * @param {list} head
  * @returns {Array}
  */
-function listToArray(list) {
-  if (!list) return []
+function listToArray(head) {
+  if (!head) return []
+
   let result = []
-  while (list != null) {
-    result.push(list.val)
-    list = list.next
+  while (head) {
+    result.push(head.val)
+    head = head.next
   }
   return result
 }
 /**
  * @description
  * 链表->数组：递归实现
+ * time: O(n)
+ * space: O(n)
  * 
  * @param {*} head
  * @returns {Array}
@@ -95,9 +108,10 @@ function listToArray(list) {
 function listToArray2(head) {
   if (!head) return []
   let result = [head.val]
-  let restVal = listToArray2(head.next)
-  return result.concat(restVal)
+  let restVals = listToArray2(head.next)
+  return result.concat(restVals)
 }
+
 /**
  * @description
  * 向链表增加首结点

@@ -880,4 +880,25 @@ var zyycode = {
     }
     return map
   },
+  /**
+   * @description
+   * 
+   * @param {Array|Object} collection The collection to iterate over.
+   * @param {Function} iteratee
+   * @returns {*} Returns collection.
+   */
+  forEach: function(collection, iteratee) {
+    if (Array.isArray(collection)) {
+      for (let i = 0; i < collection.length; i++) {
+        iteratee(collection[i])
+      }
+      return collection
+    }
+    if (typeof collection === 'object') {
+      for (let key in collection) {
+        iteratee(collection[key], key)
+      }
+      return collection
+    }
+  },
 }

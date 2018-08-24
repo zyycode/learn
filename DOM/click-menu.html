@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>右键菜单</title>
+  <style>
+    .menu {
+      position: absolute;
+      list-style: none;
+      border: 1px solid #000;
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  function t(parts, ...interpolations) {
+    let node = document.createElement('div')
+    node.innerHTML = parts.reduce((result, part, i) => {
+      return result + interpolations[i - 1] + part
+    })
+    return node.firstElementChild
+  }
+
+  window.addEventListener('contextmenu', e => {
+    // 取消右键菜单的默认行为
+    e.preventDefault()
+    // 在菜单中执行右键，不新建菜单
+    if (e.target.matches('.menu, .menu *')) {
+      return
+    }
+  //   console.log(e)
+  //   let menu = t`
+  //     <ul class='menu'>
+  //       <li>save</li>  
+  //       <li>save as</li>  
+  //       <li>send</li>  
+  //     </ul>
+  //   `
+  //   menu.onblur = function () {
+  //     document.body.removeChild(menu)
+  //   }
+  //   menu.style.top = e.clientY + 'px'
+  //   menu.style.left = e.clientX + 'px'
+  //   document.body.appendChild(menu)
+  //   menu.focus()
+  
+    showContextMenu(e, [{
+      text: '打开',
+      handler: function () {
+        console.log('打开')
+      }
+    }, {
+      text: '保存',
+      handler: function () {
+        console.log('保存')
+      }
+    }])
+  })
+
+  function showContextMenu(event, menuItems) {
+    let menu = t`
+      <ul class="menu" tabindex="-1">
+        ${
+          menuItems.map(it => `<li>${it.text}</li>`).join('')
+        }  
+      </ul>
+    `
+    // let isGoingRemove = false
+    menu.addEventListener('click', e => {
+      let clickedIndex = Array.from(menu.children).findIndex(it => it === e.target)
+      menuItems[clickedIndex].handler()
+
+      // isGoingRemove = true
+      // document.body.removeChild(menu)
+      // menu.blur()
+
+      menu.blur()
+    })
+
+    menu.addEventListener('blur', e => {
+      // if (! isGoingRemove) {
+        document.body.removeChild(menu)
+      // }
+    })
+    
+    menu.style.top = event.clientY + 'px'
+    menu.style.left = event.clientX + 'px'
+    document.body.appendChild(menu)
+    menu.focus()
+  }
+</script>
+</body>
+</html>
