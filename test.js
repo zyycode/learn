@@ -256,11 +256,11 @@ function B() {
 }
 // ------------------------------------------------------------------
 /**
- * this 调用的三种种情况
+ * this 调用的四种情况
  * 1. 当方法调用 (指向调用该方法的对象)
  * 2. 使用 bind apply call 调用 (this 指向这些函数传入的第一个参数)
  * 3. 当函数调用 (一般指向的是全局，严格模式下指向的 undefined)
- * 
+ * 4. 使用构造函数 new Function()
  */
 
 function bind(f, thisArg, ...fixedArgs) {
@@ -274,3 +274,33 @@ function f(a) {
 // f2 = f.bind({val: 1}, 1) // 2
 // f2.bind({val: 2}, 3) // 4; f2 不会再改变 this
 // ------------------------------------------------------------------
+
+function INSTANCEOF(val, fn) {
+  if (!val || !val.__proto__) return false
+  if (val.__proto__.constructor === fn) {
+    return true
+  } else {
+    return INSTANCEOF(val.__proto__, fn)
+  }
+}
+// new 的模拟实现
+// 当构造函数没有返回值时，apply 返回值是 undefined
+// 若构造函数有返回对象，则返回这个对象
+function NEW(F, ...args) {
+  let obj = {}
+  obj.__proto__ = F.prototype
+  // obj = Object.create(F.prototype)
+  let result = F.apply(obj, args)
+  // if (!result) 
+  //   return obj
+  // if (typeof result === 'object') 
+  //   return result
+  // return obj
+  return typeof result === 'object' ? result : obj 
+}
+
+function objToString(val) {
+  if (val === null) return '[object Null]'
+  if (val === undefined) return '[object Undefined]'
+  return '[object ' + val.constructor.name + ']'
+}
