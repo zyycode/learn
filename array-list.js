@@ -144,6 +144,7 @@ function nth(head, n) {
 }
 // 递归实现
 function nth2(head, n) {
+  // 注意: 使用 '==' 而不是 '===' 因为需要判断最后结点的next为 undefined 的情况
   if (head == null) return null
   if (n === 0) return head.val
   return nth(head.next, n - 1)
@@ -162,7 +163,9 @@ function insert(head, n, value) {
     val: value,
     next: null,
   }
+  // 链表为空时，直接返回插入的节点
   if (head == null) return node 
+  // 插入头节点
   if (n === 0) {
     node.next = head
     return node
@@ -171,6 +174,7 @@ function insert(head, n, value) {
   for (let i = 0; i < n - 1; i++) {
     p = p.next
   }
+  // 需要先将要插入的结点指向下一节点，再讲上一节点指向要插入的节点
   node.next = p.next
   p.next = node
   return head

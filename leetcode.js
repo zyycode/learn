@@ -222,3 +222,157 @@ function merge2(A, B) {
 }
 // console.log(merge2([1,3,5], [2,4,6]))
 //-------------------------------------------------------------------
+// 160. Intersection of Two Linked Lists
+// 解法一：获取两个链表的长度，将长度长的链表截取多余的部分，然后在进行比较
+// time: O(n); space: O(1);
+function getIntersectionNode(headA, headB) {
+  if (headA === null || headB === null) return null
+  let lenA = len(headA)
+  let lenB = len(headB)
+  if (lenA < lenB) {
+    while (lenA !== lenB) {
+      headB = headB.next
+      lenB--
+    }
+  } else {
+    while (lenA !== lenB) {
+      headA = headA.next
+      lenA--
+    }
+  }
+  while (headA !== headB) {
+    headA = headA.next
+    headB = headB.next
+  }
+  return headA
+}
+// 获取链表的长度
+function len(head) {
+  let len = 0
+  while (head !== null) {
+    head = head.next
+  }
+  return len
+}
+// 解法二：两次迭代。第一次迭代中，到达尾节点后将指针指向另一个节点的头部，依次移动两个指针，直到指向同一个节点
+function getIntersectionNode(headA, headB) {
+  if (headA === null || headB === null) return null
+  let a = headA
+  let b = headB
+  while (a !== b) {
+    a = a === null ? headB : a.next
+    b = b === null ? headA : b.next
+  }
+  return a
+}
+// ------------------------------------------------------------------
+// 24. Swap Nodes in Pairs
+/**
+ * Given a linked list, swap every two adjacent nodes and return its head.
+ * Given 1->2->3->4, you should return the list as 2->1->4->3.
+ */
+// 
+function swapPairs(head) {
+  let dummy = new ListNode(0)
+  let prev = dummy
+  prev.next = head
+  while (prev !== null && prev.next.next !== null) {
+    let first = prev.next
+    let second = prev.next.next
+    first.next = second.next
+    prev.next = second
+    second.next = first
+    prev = first
+  }
+  return dummy.next
+}
+// *考虑进位
+function addTwoNumbers(l1, l2) {
+  if (l1 === null && l2 === null) return null
+  let hummy = new ListNode(0)
+  let cur = hummy
+  let sum = 0
+  let p1 = l1, p2 = l2
+  while (p1 !== null || p2 !== null) {
+    if (p1 !== null) {
+      sum += p1.val
+      p1 = p1.next
+    }
+    if (p2 !== null) {
+      sum += p2.val
+      p2 = p2.next
+    }
+    cur.next = new ListNode(sum % 10)
+    sum = Math.floor(sum / 10)
+    cur = cur.next
+  }
+  if (sum === 1) {
+    cur.next = new ListNode(1)
+  }
+  return hummy.next
+}
+/** 
+ * input: 1->2->3->4->5 n = 2
+ * output: 1->2->3->5
+ * 
+ * dummy -> 1 -> 2 -> 3 -> 4 -> 5
+ * fast               fast
+ * slow               slow
+*/
+function removeNthFromEnd(head, n) {
+  let dummy = new ListNode(0)
+  let slow = dummy
+  let fast = dummy
+  dummy.next = head
+  for (let i = 0; i <= n; i++) {
+    fast = fast.next
+  }
+  while (fast !== null) {
+    fast = fast.next
+    slow = slow.next
+  }
+  slow.next = slow.next.next
+  return dummy.next
+}
+// Reverse Linked List II
+/**
+ * given 1 -> 2 -> 3 -> 4 -> 5, m = 2, n = 4
+ * return 1 -> 4 -> 3 -> 2 -> 1
+ * 
+ * dummy -> 1 -> 2 -> 3 -> 4 -> 5
+ * prev
+ *         cur
+ */
+function reverseBetween(head, m, n) {
+  let dummy = new ListNode(0)
+  dummy.next = head
+  let prev = dummy
+  let cur = dummy.next
+  for (let i = 1; i < m; i++) {
+    cur = cur.next
+    prev = prev.next
+  }
+  for (let i = 0; i < n - m; i++) {
+    let tmp = cur.next
+    cur.next = tmp.next
+    tmp.next = prev.next
+    prev.next = tmp
+  }
+  return dummy.next
+}
+
+function dominantIndex(nums) {
+  let max = 0
+  let secondMax = 0
+  let index = 0
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] > max) {
+      secondMax = max
+      max = nums[i]
+      index = i
+    } else if (nums[i] > secondMax) {
+      secondMax = nums[i]
+    }
+  }
+  return max >= 2 * secondMax ? index : -1
+}
