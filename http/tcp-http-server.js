@@ -3,6 +3,7 @@ var fs = require('fs')
 var server = net.createServer()
 
 const port = 80
+var msg = ['foo', 'bar']
 
 server.on('connection', conn => {
 
@@ -11,24 +12,41 @@ server.on('connection', conn => {
     console.log('+------------------------------+')
     console.log(data)
     console.log('+------------------------------+')
+
     var lines = data.split('\r\n')
     var fistLine = lines.shift()
     var [method, path]  = fistLine.split(' ')
     
     console.log(method, path)
     
-    try {
-      var fileContent = fs.readFileSync('.' + path)
-    } catch(e) {
-      // console.log(e)
-      fileContent = 'error'
+    if (path === '/msg.html') {
+
+      if (method === 'POST') {
+        var lastLine = lines.pop()
+        msg.push(lastLine.split('=')[1])
+      }
+
+      conn.write(`HTTP/1.1 200 OK\r\n`)
+      conn.write(`\r\n`)
+      msg.forEach(msg => {
+        conn.write(`<div>${msg}</div>`)
+      })
+      conn.end()
+    } else {
+      try {
+        var fileContent = fs.readFileSync('.' + path)
+      } catch(e) {
+        // console.log(e)
+        fileContent = 'error'
+      }
+  
+      conn.write(`HTTP/1.1 200 OK\r\n`)
+      // conn.write(`Content-Type: text/html\r\n`)
+      conn.write(`\r\n`)
+      conn.write(fileContent)
+      conn.end()
     }
 
-    conn.write(`HTTP/1.1 200 OK\r\n`)
-    // conn.write(`Content-Type: text/html\r\n`)
-    conn.write(`\r\n`)
-    conn.write(fileContent)
-    conn.end()
   })
 
 })

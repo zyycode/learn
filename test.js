@@ -479,3 +479,16 @@ getURL('data/none.txt', (content, error) => {
   }
 })
 // ------------------------------------------------------------------
+const hexColor = '#' + 
+  Math.floor(Math.random() * 0x1000000)
+  .toString(16)
+  .padStart(6, '0')
+// ------------------------------------------------------------------
+function extents(sourceObj, targetObj) {
+  for (let key of sourceObj) {
+    if (!(key in targetObj)) {
+      targetObj[key] = sourceObj[key]
+    }
+  }
+  return targetObj
+}

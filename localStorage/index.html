@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+    function loadAsset(filename, version) {
+      let content = localStorage.getItem(filename + '?version=' + version)
+      if (content) {
+        let tag
+        if (filename.endsWith('.css')) {
+          tag = document.createElement('style')
+        } else if (filename.endsWith('.js')) {
+          tag = document.createElement('script')
+        }
+        tag.textContent = content
+        document.head.appendChild(tag)
+      } else {
+        let xhr = new XMLHttpRequest()
+        xhr.open('GET', filename)
+        xhr.send()
+        xhr.onload = function () {
+          localStorage.setItem(filename + '?version=' + version, xhr.responseText)
+          loadAsset(filename, version)
+        }
+      }
+    }
+  </script>
+  <script>
+    loadAsset('a.css', '2')
+    loadAsset('b.css', '2')
+    loadAsset('c.js', '2')
+    loadAsset('d.js', '1')
+  </script>
+  <!-- <link rel="stylesheet" href="./a.css">
+  <link rel="stylesheet" href="./b.css">
+  <script src="./c.js"></script>
+  <script src="./d.js"></script> -->
+</head>
+<body>
+  <h1>It works!</h1>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Chat-Room</title>
+</head>
+<body>
+  <iframe src="msg.html" name="msg-window" frameborder="0"></iframe>
+  <form action="msg.html" method="POST" target="msg-window" name="msgForm">
+    <input id="msg" type="text" name="message">
+    <button id="btn">Send</button>
+  </form>
+
+  <script>
+    var btn = document.getElementById('btn')
+    var msg = document.getElementById('msg')
+    btn.addEventListener('click', () => {
+      setTimeout(() => {
+        msg.value = ''
+      }, 0)
+    })
+  </script>
+</body>
+</html>
