@@ -484,11 +484,3 @@ const hexColor = '#' +
   .toString(16)
   .padStart(6, '0')
 // ------------------------------------------------------------------
-function extents(sourceObj, targetObj) {
-  for (let key of sourceObj) {
-    if (!(key in targetObj)) {
-      targetObj[key] = sourceObj[key]
-    }
-  }
-  return targetObj
-}

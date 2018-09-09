@@ -376,3 +376,28 @@ function dominantIndex(nums) {
   }
   return max >= 2 * secondMax ? index : -1
 }
+// ------------------------------------------------------------------
+// Linked List Cycle II 单链表是否存在环，并找出环相交的第一个节点
+function linkClycle(head) {
+  let slow = head
+  let fast = head
+
+  while (true) {
+    // 判断是否存在环
+    if (fast === null || false.next === null) {
+      return false
+    }
+    slow = slow.next
+    fast = fast.next.next
+    // 第一次交点
+    if (slow === fast) break
+  }
+  // 将 slow 指向头结点
+  slow = head
+  // 找出环的第一个交点
+  if (slow !== fast) {
+    slow = slow.next
+    fast = fast.next.next
+  }
+  return slow
+}
