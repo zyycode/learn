@@ -68,7 +68,7 @@ function firstUniqChar(s) {
 // 326. Power of Three
 
 function isPowerOfThree(n) {
-
+  
 }
 
 // 367. Valid Perfect Square
@@ -395,9 +395,10 @@ function linkClycle(head) {
   // 将 slow 指向头结点
   slow = head
   // 找出环的第一个交点
-  if (slow !== fast) {
+  while (slow !== fast) {
     slow = slow.next
     fast = fast.next.next
   }
   return slow
 }
+// ------------------------------------------------------------------

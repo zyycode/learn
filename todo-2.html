@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TODO</title>
+  <style>
+    li input[type="text"] {
+      display: none
+    }
+    li.editing span {
+      display: none
+    }
+    li.editing input[type="text"] {
+      display: inline-block;
+    }
+    li.completed {
+      text-decoration: line-through;
+    }
+    /* 使用计数器实现 */
+    /* body {
+      counter-reset: itemsLeft;
+    }
+    ul input[type="checkbox"]:not(:checked) {
+      counter-increment: itemsLeft
+    }
+    #left-count::before {
+      content: counter(itemsLeft, decimal)
+    } */
+    ul.active li.completed {
+      display: none;
+    }
+    ul.completed li:not(.completed) {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <section id="todo-app"></section>
+  
+<script>
+  let wrapper = document.querySelector('#todo-app')
+
+  let todos = [{
+    done: true,
+    content: 'foo'
+  }, {
+    done: false,
+    content: 'bar'
+  }]
+
+  let show = 'all'
+
+  function data2html() {
+    return `
+      <input type="checkbox" ${todos.every(it => it.done) ? 'checked' : ''} id="toggle-select-all">
+      <input type="text" id="todo-input">
+      <ul id="todo-list" class="${show}">
+        ${
+          todos.map(it => `
+            <li class="${it.done ? 'completed' : 'uncompleted'}">
+              <input type="checkbox" ${it.done ? 'checked' : ''}>
+              <input type="text" value="${it.content}">
+              <span>${it.content}</span>
+              <a href="javascript:;" class="delete">x</a>
+            </li>
+          `).join('')
+        }
+      </ul>
+      <div>
+        <span><span id="left-count">${todos.filter(it => !it.done).length}</span> items left</span>
+        <span id="filter-wrapper">
+          <input type="radio" ${show == 'all' ? 'checked' : ''} name="filter" value="all"> all
+          <input type="radio" ${show == 'active' ? 'checked' : ''} name="filter" value="active"> active
+          <input type="radio" ${show == 'completed' ? 'checked' : ''} name="filter" value="completed"> completed
+          <button id="clear-button" style="display: ${todos.some(it => it.done) ? 'inline-block' : 'none'};" >clear all items</button>
+        </span>
+      </div>
+    `
+  }
+
+  function render() {
+    wrapper.innerHTML = data2html(todos)
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    render()
+  })
+
+  wrapper.addEventListener('keyup', e => {
+    if (e.target.matches('input#todo-input')) {
+      if (e.keyCode === 13 && e.target.value) {
+        todos.push({
+          done: false,
+          content: e.target.value
+        })
+        e.target.value = ''
+        render()
+        document.querySelector('#todo-input').focus()
+      }
+    }
+  })
+
+  wrapper.addEventListener('click', e => {
+    if (e.target.matches('a.delete')) {
+      let li = e.target.parentNode
+      let index = Array.from(li.parentNode.children).findIndex(it => it === li)
+      todos.splice(index, 1)
+      render()
+    }
+  })
+
+  wrapper.addEventListener('click', e => {
+    if (e.target.matches('ul input[type="checkbox"]')) {
+      let li = e.target.parentNode
+      let index = Array.from(li.parentNode.children).findIndex(it => it === li)
+      todos[index].done = e.target.checked
+      render()
+    }
+  })
+
+  wrapper.addEventListener('click', e => {
+    if (e.target.matches('#toggle-select-all')) {
+      if (todos.every(it => it.done)) {
+        todos.forEach(it => it.done = false)
+      } else {
+        todos.forEach(it => it.done = true)
+      }
+      render()
+    }
+  })
+
+  wrapper.addEventListener('click', e => {
+    if (e.target.matches('input[type="radio"]')) {
+      show = e.target.value
+      render()
+    }
+  })
+
+  wrapper.addEventListener('click', e => {
+    if (e.target.matches('button')) {
+      todos = todos.filter(it => !it.done)
+      render()
+    }
+  })
+</script>
+</body>
+</html>

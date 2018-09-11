@@ -508,7 +508,7 @@ class LikeButton {
     return this.el
   }
 }
-
+// 创建一个实例，以及调用
 const likeButton = new LikeButton()
 wrapper.appendChild(likeButton.render())
 wrapper.onStateChange((oldEl, newEl) => {

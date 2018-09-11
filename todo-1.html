@@ -28,6 +28,12 @@
     #left-count::before {
       content: counter(itemsLeft, decimal)
     } */
+    ul.active li.completed {
+      display: none;
+    }
+    ul.completed li:not(.completed) {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -45,10 +51,10 @@
     <div>
       <span><span id="left-count">0</span> items left</span>
       <span id="filter-wrapper">
-        <input type="radio" name="filter"> all
-        <input type="radio" name="filter"> active
-        <input type="radio" name="filter"> compeleted
-        <button>clear all items</button>
+        <input type="radio" name="filter" value="all"> all
+        <input type="radio" name="filter" value="active"> active
+        <input type="radio" name="filter" value="completed"> completed
+        <button id="clear-button" style="display: none;">clear all items</button>
       </span>
     </div>
   </section>
@@ -57,15 +63,24 @@
   let todoInput = document.querySelector('#todo-input')
   let todoList = document.querySelector('#todo-list')
   let leftCount = document.querySelector('#left-count')
-  let toggleSelectAll = document.querySelector('#toggle-select-all') 
+  let toggleSelectAll = document.querySelector('#toggle-select-all')
+  let filterWrapper = document.querySelector('#filter-wrapper')
+  let clearButton = document.querySelector('#clear-button')
 
   function updateLeftItems() {
-    let count = Array.from(todoList.querySelectorAll('input[type="checkbox"')).filter(it => !it.checked).length
+    let checkboxs = todoList.querySelectorAll('input[type="checkbox"')
+    let count = Array.from(checkboxs)
+                .filter(it => !it.checked).length
     leftCount.textContent = count
     if (count === 0) {
       toggleSelectAll.checked = true
     } else {
       toggleSelectAll.checked = false
+    }
+    if (count === checkboxs.length) {
+      clearButton.style.display = 'none'
+    } else {
+      clearButton.style.display = 'inline-block'
     }
   }
   toggleSelectAll.addEventListener('change', function() {
@@ -128,6 +143,14 @@
       span.addEventListener('dblclick', function(e) {
         li.classList.add('editing')
         edit.focus()
+      })
+
+      filterWrapper.addEventListener('change', function(e) {
+        todoList.className = e.target.value
+      })
+
+      clearButton.addEventListener('click', function(e) {
+        document.querySelectorAll('li.completed a').forEach(it => it.click())
       })
 
       li.appendChild(check)
