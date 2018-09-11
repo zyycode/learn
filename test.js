@@ -1,36 +1,3 @@
-function insert(head, n, value) {
-  let node = {
-    value: value,
-    next: null,
-  }
-  let p = head
-  for (let i = 0; i < n - 1; i++) {
-    p = p.next
-  }
-  node.next = p.next
-  p.next = node
-  return head
-}
-// 递归实现
-function insert(head, n, value) {
-  
-}
-
-function remove(head, n) {
-  if (!head) {
-    return null
-  }
-  if (n === 0) {
-    return head.next
-  }
-  let p = head
-  for (let i = 0; i < n - 1; i++) {
-    p = p.next
-  }
-  p.next = p.next.next
-  return head
-}
-  
 function forEachDigit(n, action) {
   do {
     var digit = n % 10
@@ -484,3 +451,67 @@ const hexColor = '#' +
   .toString(16)
   .padStart(6, '0')
 // ------------------------------------------------------------------
+var obj = {
+  queue: function (f) {
+    
+  }
+}
+
+obj.queue(function(next) {
+  console.log(1)
+  next()
+}).queue(function(next) {
+  setTimeout(next, 3000)
+  next()
+}).queue(function(next) {
+  console.log(2)
+  next()
+}).queue(function(next) {
+  console.log(3)
+  next()
+})
+
+class FunctionQueue {
+  constructor () {
+
+  }
+  queue (f) {
+
+  }
+}
+
+class LikeButton {
+  constructor () {
+    this.state = { isLiked: false }
+  }
+
+  setState (state) {
+    const oldEl = this.el
+    this.state = state
+    this.el = this.render()
+    if (this.onStateChange) this.onStateChange(oldEl, this.el)
+  }
+
+  changeLikeText () {
+    this.setState({
+      isLiked: !this.state.isLiked
+    })
+  }
+
+  render () {
+    this.el = createDOMFromString`
+      <button class="like-button">
+        <span class="like-text">${this.state.isLiked ? '取消' : '点赞'}</span>
+      </button>
+    `
+    this.el.addEventListener('click', this.changeLikeText.bind(this))
+    return this.el
+  }
+}
+
+const likeButton = new LikeButton()
+wrapper.appendChild(likeButton.render())
+wrapper.onStateChange((oldEl, newEl) => {
+  wrapper.insertBefore(newEl, oldEl)
+  wrapper.removeChild(oldEl)
+})

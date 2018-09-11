@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>TODO</title>
+  <style>
+    li input[type="text"] {
+      display: none
+    }
+    li.editing span {
+      display: none
+    }
+    li.editing input[type="text"] {
+      display: inline-block;
+    }
+    li.completed {
+      text-decoration: line-through;
+    }
+    /* 使用计数器实现 */
+    /* body {
+      counter-reset: itemsLeft;
+    }
+    ul input[type="checkbox"]:not(:checked) {
+      counter-increment: itemsLeft
+    }
+    #left-count::before {
+      content: counter(itemsLeft, decimal)
+    } */
+  </style>
+</head>
+<body>
+  <section>
+    <input type="checkbox" name="" id="toggle-select-all">
+    <input type="text" id="todo-input">
+    <ul id="todo-list">
+      <!-- <li>
+        <input type="checkbox">
+        <input type="text" value="content">
+        <span>content</span>
+        <a href="javascript:;">x</a>
+      </li> -->
+    </ul>
+    <div>
+      <span><span id="left-count">0</span> items left</span>
+      <span id="filter-wrapper">
+        <input type="radio" name="filter"> all
+        <input type="radio" name="filter"> active
+        <input type="radio" name="filter"> compeleted
+        <button>clear all items</button>
+      </span>
+    </div>
+  </section>
+  
+<script>
+  let todoInput = document.querySelector('#todo-input')
+  let todoList = document.querySelector('#todo-list')
+  let leftCount = document.querySelector('#left-count')
+  let toggleSelectAll = document.querySelector('#toggle-select-all') 
+
+  function updateLeftItems() {
+    let count = Array.from(todoList.querySelectorAll('input[type="checkbox"')).filter(it => !it.checked).length
+    leftCount.textContent = count
+    if (count === 0) {
+      toggleSelectAll.checked = true
+    } else {
+      toggleSelectAll.checked = false
+    }
+  }
+  toggleSelectAll.addEventListener('change', function() {
+    if (this.checked) {
+      Array.from(todoList.querySelectorAll('input[type="checkbox"'))
+      .filter(it => !it.checked)
+      .forEach(it => it.click())
+    } else {
+      Array.from(todoList.querySelectorAll('input[type="checkbox"'))
+      .filter(it => it.checked)
+      .forEach(it => it.click())
+    }
+  })
+
+  todoInput.addEventListener('keyup', function(e) {
+    let todoText = todoInput.value.trim()
+
+    if (e.keyCode === 13 && todoText) {
+      todoInput.value = ''
+
+      let li = document.createElement('li')
+      
+      let check = document.createElement('input')
+      check.type = 'checkbox'
+
+      let edit = document.createElement('input')
+      edit.type = 'text'
+      edit.value = todoText
+
+      let span = document.createElement('span')
+      span.textContent = todoText
+
+      let del = document.createElement('a')
+      del.href = 'javascript:;'
+      del.textContent = 'x'
+      
+      check.addEventListener('change', function(e) {
+        updateLeftItems()
+        if (check.checked === true) {
+          li.classList.add('completed')
+        } else {
+          li.classList.remove('completed')
+        }
+      })
+
+      edit.addEventListener('blur', function(e){
+        li.classList.remove('editing')
+        span.textContent = edit.value.trim()
+      })
+      edit.addEventListener('keyup', function(e) {
+        if (e.keyCode === 13) {
+          this.blur()
+        }
+      })
+
+      del.addEventListener('click', function(e) {
+        del.parentNode.parentNode.removeChild(del.parentNode)
+      })
+
+      span.addEventListener('dblclick', function(e) {
+        li.classList.add('editing')
+        edit.focus()
+      })
+
+      li.appendChild(check)
+      li.appendChild(document.createTextNode(' '))
+      li.appendChild(edit)
+      li.appendChild(document.createTextNode(' '))
+      li.appendChild(span)
+      li.appendChild(document.createTextNode(' '))
+      li.appendChild(del)
+
+      todoList.appendChild(li)
+      
+      updateLeftItems()
+    }
+  })
+</script>
+</body>
+</html>
