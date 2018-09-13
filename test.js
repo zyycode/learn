@@ -479,7 +479,7 @@ class FunctionQueue {
 
   }
 }
-
+// ------------------------------------------------------------------
 class LikeButton {
   constructor () {
     this.state = { isLiked: false }
@@ -515,3 +515,4 @@ wrapper.onStateChange((oldEl, newEl) => {
   wrapper.insertBefore(newEl, oldEl)
   wrapper.removeChild(oldEl)
 })
+// ------------------------------------------------------------------
