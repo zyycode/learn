@@ -64,32 +64,7 @@ let ary = {
 // forEachDigit(12345, d => {
 //   console.log(d)
 // })
-function arrToList(ary) {
-  let head = {
-    val: ary[0],
-    next: null
-  }
-  let pnode = head
-  for (let i = 1; i < ary.length; i++) {
-    let node = {
-      val: ary[i],
-      next: null
-    }
-    pnode.next = node
-    pnode = node
-  }
-  return head
-}
-// console.log(arrToList([1,2,3,4]))
 //-------------------------------------------------------------------
-// 回溯算法 
-// Input: "25525511135"
-// Output: ["255.255.11.135", "255.255.111.35"]
-
-function restoreIpAdresses(s) {
-  
-}
-
 // 工厂模式
 function createPerson(name, age, job) {
   let o = new Object()
@@ -412,7 +387,7 @@ function foo() {
   return bar
 }
 var baz = foo()
-baz() // 这就是闭包
+baz() // 这就是闭包\frac{n(n+1)}{2}
 
 // ------------------------------------------------------------------
 // 无法捕获到错误
@@ -516,3 +491,209 @@ wrapper.onStateChange((oldEl, newEl) => {
   wrapper.removeChild(oldEl)
 })
 // ------------------------------------------------------------------
+// Promise.resolve.then(console.log)
+
+Promise.resolve = function (value) {
+  return new Primise(resolve => {
+    resolve(value)
+  })
+}
+
+Promise.reject = function (reason) {
+  return new Promise((_, reject) => {
+    reject(reason)
+  })
+}
+
+Promise.all = function(promises) {
+  return new Promise((resolve, reject) => {
+    let result = []
+    let count = 0
+    for (let i = 0; i < promises.length; i++) {
+      promises[i].then(value => {
+        result[i] = value
+        count++
+        if (count === promises.length) {
+          resolve(result)
+        }
+      }, reject)
+    }
+  })
+}
+
+Promise.race = function(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach(it => it.then(resolve, reject))
+  })
+}
+
+// Promise.race = promises => new Promise((resolve, reject) => promises.forEach(it => it.then(resolve, reject)))
+
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value => P.resolve(callback()).then(() => value),
+    reason => P.reject(callback()).then(() => { throw reason })
+  );
+};
+
+//-------------------------------------------------------------------
+function readFilePromise(path) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    })
+  })
+}
+
+function writeFilePromise(path, content) {
+  return new Promise((resolve, reject) => {
+    fs.writeFile(path, content, (err, res) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(res)
+      }
+    })
+  })
+}
+// --> 优化
+function promisify(f) {
+  return function(...args) {
+    return new Promise((resolve, reject) => {
+      f(...args, (err, res) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(res)
+        }
+      })
+    })
+  }
+}
+
+var readFile = promisify(fs.readFile)
+readFile('a.txt').then((result) => {
+  console.log(result)
+}, (err) => {
+  console.log(err)
+})
+
+function callbackify(f) {
+  return function (...args) {
+    var callback = args.pop()
+    f(...args).then(value => {
+      callback(null, value)
+    }, reason => {
+      callback(reason, null)
+    })
+  }
+}
+// ------------------------------------------------------------------
+
+
+function get(value) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(value)
+    }, 5000)
+  })
+}
+
+
+function run(g) {
+  return new Promise((resolve, reject) => {
+    var iter = g()
+    var generated
+    try {
+      generated = iter.next()
+    } catch (e) {
+      reject(e)
+    }
+    start()
+
+    function start() {
+      if (!generated.done) {
+        generated.value.then(value => {
+          try {
+            generated = iter.next(value)
+          } catch (e) {
+            reject(e)
+          }
+          start()
+        }, reason => {
+          try {
+            generated = iter.throw(reason)
+          } catch (e) {
+            reject(e)
+          }
+          start()
+        })
+      } else {
+        resolve(generated.value)
+      }
+    }
+  })
+}
+
+// ------------------------------------------------------------------
+
+
+const tasks = []
+
+var output = i => new Promise(resolve => {
+  setTimeout(() => {
+    console.log(new Date, i)
+    resolve()
+  }, 1000 * i)
+})
+for (var i = 0; i < 5; i++) {
+  tasks.push(output(i))
+}
+Promise.all(tasks).then(() => {
+  setTimeout(() => {
+    console.log(new Date, i)
+  }, 1000)
+})
+
+// ------------------------------------------------------------------
+
+function get(value) {
+  console.log('开始请求', value)
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(value, '请求结束')
+      resolve(value)
+    }, 1000 + Math.random() * 5000)
+  })
+}
+
+function * g() {
+  var one = yield get(1)
+  var two = yield get(2)
+  var three = yield get(3)
+  console.log(one + two + three)
+}
+
+function run(g) {
+  var iter = g()
+  var generated = iter.next()
+  start()
+  function start() {
+    if (!generated.done) {
+      generated.value.then(value => {
+        generated  = iter.next(value)
+        start()
+      }, err => {
+        generated = iter.throw(err)
+        start()
+      })
+    }
+  }
+}
+
+run(g)
