@@ -679,6 +679,18 @@ function * g() {
   console.log(one + two + three)
 }
 
+// function run(g) {
+//   var iter = g()
+//   var gen = iter.next()
+
+//   gen.value.then(val => {
+//     gen = iter.next()
+//     gen.value.then(val => {
+//       // ....
+//     })
+//   })
+// }
+
 function run(g) {
   var iter = g()
   var generated = iter.next()
@@ -696,4 +708,57 @@ function run(g) {
   }
 }
 
-run(g)
+// run(g)
+// ------------------------------------------------------------------
+// function template(str, data) {
+//   return str.replace(/\{\{.*?\}\}/g, function(match) {
+//     let field = match.match(/\{\{(.*?)\}\}/)[1]
+//     return data[field]
+//   })
+// }
+
+function template(str, data) {
+  return str.replace(/\{\{(.*?)\}\}/g, (match, field) => {
+    return data[field]
+  })
+}
+template(`<div>
+<h1>{{title}} {{age}}</h1>
+<div>{{body}}</div>
+</div>`, {title: 1, age: 2, body: 3})
+// ------------------------------------------------------------------
+var obj = {
+  a: 1,
+  b: 2,
+  c: {
+    e: 3,
+    f: {
+      g: 4
+    }
+  }
+}
+function observer(obj) {
+  function isObj(val) {
+    return Object.prototype.toString.call(val) === '[object Object]'
+  }
+  let copyObj = {}
+  for (let key in obj) {
+    if (isObj(obj[key])) {
+      copyObj[key] = observer(obj[key])
+    } else {
+      copyObj[key] = obj[key]
+    }
+    Object.defineProperty(obj, key, {
+      get () {
+        return copyObj[key]
+      },
+      set (val) {
+        if (isObj(val)) {
+          val = observer(val)
+        }
+        copyObj[key] = val
+      }
+    })
+  }
+  return obj
+}
