@@ -60,7 +60,6 @@ var zyycode = {
     let rest = [].concat(...values)
     return array.filter(item => !rest.includes(item))
   },
-
   /**
    * @description
    * create a slice of array with n elements droppen from the beaginning.
@@ -901,4 +900,22 @@ var zyycode = {
       return collection
     }
   },
+
+  identity: function(v) {
+    return v
+  },
+  isMatch: function(obj, src) {
+    if (typeof obj !== 'object' || typeof src !== 'object') return false
+    for (let key in src) {
+      if (obj[key] !== src[key]) {
+        if (!zyycode.isMatch(obj[key], src[key])) {
+          return false
+        }
+      }
+    }
+    return true
+  },
+  
 }
+
+console.log(zyycode.difference([1,2,3,4,5,6,7,8],[1,3],[4,8],[6]))

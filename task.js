@@ -865,7 +865,7 @@ function elt(tagName, ...children) {
   })
   return node
 }
-// elt('a', elt('b', 'foo', elt('c', 'bar')))
+elt('a', elt('b', 'foo', elt('c', 'bar')))
 
 function t(parts) {
   let node = document.createElement('div')
@@ -962,3 +962,4 @@ function groupBy(ary, propName) {
 }
 var groupBy = (ary, propName) => ary.reduce((item, propName, key) => (key = item[propName]), key in map ? map[key].push(item) : map[key] = [item], {})
 //-------------------------------------------------------------------
+

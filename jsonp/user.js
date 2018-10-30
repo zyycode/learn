@@ -50,7 +50,6 @@ function jsonp(url, okCallback, errorCallback, timeoutCallback) {
       errorCallback(e)
     }
   }
-
   
   let timeoutId = setTimeout(() => {
     isTimeoutInvoked = true

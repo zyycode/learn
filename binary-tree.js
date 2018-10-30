@@ -1,10 +1,10 @@
 /**
  * @description
  * 把一棵由数组保存的完全二叉树转换为二叉树链表形式
- * 
+ * 顺序存储
  * @param {Array} array
  * @param {number} [rootIndex=0] 根结点所在位置
- * @returns 
+ * @returns
  */
 function arrayToTreePro(array, rootIndex = 0) {
   if (array[rootIndex] == null) return null
@@ -98,6 +98,7 @@ function condenseArrayToTree(array) {
 /**
  * @description
  * 将一棵稠密二叉树转换为数组表示形式 
+ * 根节点 -> 左子树 -> 右子树
  * 
  * @param {*} root root node
  * @returns
@@ -122,4 +123,43 @@ function treeToCondensedArray(root) {
     }
   }
   return result
+}
+/**
+ * @description
+ * 先序遍历
+ * 
+ * @param {*} root
+ */
+function prevOrderTraverse(root, action) {
+  if (root) {
+    action(root.val)
+    prevOrderTraverse(root.left, action)
+    prevOrderTraverse(root.right, action)
+  }
+}
+/**
+ * @description
+ * 中序遍历
+ * 
+ * @param {*} root
+ */
+function inOrderTraverse(root) {
+  if (root) {
+    inOrderTraverse(root.left)
+    console.log(root.val)
+    inOrderTraverse(root.right)
+  }
+}
+/**
+ * @description
+ * 后序遍历
+ * 
+ * @param {*} root
+ */
+function postOrderTraverse(root) {
+  if (root) {
+    postOrderTraverse(root.left)
+    postOrderTraverse(root.right)
+    console.log(root.val)
+  }
 }

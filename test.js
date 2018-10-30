@@ -102,16 +102,17 @@ var id
 //   clearTimeout(id)
 //   id = setTimeout(action, 3000)
 // })
-
+// 函数防抖
 function debounce(f, interval) {
   var id = null
   return function(...args) {
-    clearTimeout(id)
+    if (id) clearTimeout(id)
     id = setTimeout(() => {
-      f.apply(this, ...args)
+      f.apply(this, args)
     }, interval)
   }
 }
+// 函数节流
 function throttle(f, interval) {
   var lastRunTime = 0
   return function (...args) {
@@ -175,6 +176,7 @@ function create(o) {
  * 2. 使用 bind apply call 调用 (this 指向这些函数传入的第一个参数)
  * 3. 当函数调用 (一般指向的是全局，严格模式下指向的 undefined)
  * 4. 使用构造函数 new Function()
+ * 优先级：new > bind, apply... > 方法 > 函数
  */
 
 function bind(f, thisArg, ...fixedArgs) {
@@ -737,10 +739,11 @@ var obj = {
     }
   }
 }
+
+function isObj(val) {
+  return Object.prototype.toString.call(val) === '[object Object]'
+}
 function observer(obj) {
-  function isObj(val) {
-    return Object.prototype.toString.call(val) === '[object Object]'
-  }
   let copyObj = {}
   for (let key in obj) {
     if (isObj(obj[key])) {
@@ -762,3 +765,36 @@ function observer(obj) {
   }
   return obj
 }
+// ------------------------------------------------------------------
+
+/** 
+computed: {
+ todos() {
+    return this.$store.state.todos
+  },
+  showString() {
+    return this.$store.state.showString
+  }
+}
+computed: mapState({
+  todos: state => state.todos,
+  showString: 'showString'
+})
+*/
+
+function mapState(obj) {
+  let res = {}
+  for (let key in obj) {
+    if (typeof obj[key] == 'string') {
+      res[key] = function() {
+        return this.$store.state[key]
+      }
+    } else {
+      res[key] = function() {
+        return obj[key].call(this,this.$store.state)
+      }
+    }
+  }
+  return res
+}
+
