@@ -797,4 +797,88 @@ function mapState(obj) {
   }
   return res
 }
+// ------------------------------------------------------------------
+function isSymmetric(root) {
+  if (!root) return true
+  let s = [[root.left, root.right]]
+  while (s.length) {
+    let [l, r] = s.pop()
+    if (!l && !r) continue
+    if (!l || !r || l.val !== r.val) return false
+    s.push([l.left, r.right], [l.right, r.left])
+  }
+  return true
+}
+function mergeTrees(t1, t2) {
+  if (t1 == null && t2 == null) return null
+  if (!t1) return t2
+  if (!t2) return t1
+  let t = new TreeNode(t1.val + t2.val)
+  t.left = mergeTrees(t1.left, t2.left)
+  t.right = mergeTrees(t1.right, t2.right)
+  return t
+}
 
+function mergeList(l1, l2) {
+  if (!l1) return l2
+  if (!l2) return l1
+  let head
+  while (l1 && l2) {
+    if (l1.val < l1.val) {
+      head.val = l1.val
+      l1 = l1.next
+    } else {
+      head.val = l2.val
+      l2 = l2.next
+    }
+    head = head.next
+  }
+  if (l1 !== null) head.next = l1
+  if (l1 !== null) head.next = l2 
+  return head
+}
+
+function findDiagonalOrder(matrix) {
+  if (!matrix.length) return []
+
+  let transformed = new Array(matrix.length + matrix[0].length - 1).fill(0).map(it => [])
+
+  matrix.forEach((row, i) => {
+    row.forEach((val, j) => {
+      transformed[i + j].push(val)
+    })
+  })
+
+  return [].concat(...transformed.map((row, i) => {
+    if (i % 2 === 0) {
+      row.reverse()
+    }
+    return row
+  }))
+};
+function findDiagonalOrder2(matrix) {
+  if (matrix.length === 0 || matrix[0].length === 0) {
+    return []
+  }
+  let cols = matrix[0].length
+  let rows = matrix.length
+  let scans = rows +  cols - 1
+  let res = []
+  let index = 0
+  for (let i = 0; i < scans; i++) {
+    if (i % 2 === 0) {
+      let x = i < rows ? i : rows - 1
+      let y = i < rows ? 0 : i - (rows - 1)
+      while (x >= 0 && y < cols) {
+        res[index++] = matrix[x--][y++]
+      }
+    } else {
+      let x = i < cols ? 0 : i - (cols - 1)
+      let y = i < cols ? i : cols - 1
+      while (x < rows && y >= 0) {
+        res[index++] = matrix[x++][y--]
+      }
+    }
+  }
+  return res
+}

@@ -72,9 +72,7 @@ function insertSort(array) {
 }
 
 // time: n * log(n); space: log(n)
-function randomRange(n) {
-  return new Array(n).fill(0).map(it => Math.random() * n | 0)
-}
+
 function swap(array, i, j) {
   [array[i], array[j]] = [array[j], array[i]]
 }
@@ -99,4 +97,13 @@ function partition(array) {
 
 function  mergeSort(array) {
   
+}
+
+
+function inOrderTraverse(root, action = console.log) {
+  if (root) {
+    inOrderTraverse(root.left)
+    action(root.val)
+    inOrderTraverse(root.right)
+  }
 }
