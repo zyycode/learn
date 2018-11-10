@@ -5,11 +5,11 @@
  * 
  * @param {number} n The number of array.
  * @returns {Array} Returns the disarray array.
- */
+ */{}
 function rangeArray(n) {
   return new Array(n).fill(0).map(item => Math.random() * n | 0)
 }
-
+// ------------------------------------------------------------------
 /**
  * @description
  * 冒泡排序
@@ -32,12 +32,13 @@ function bubbleSort(array) {
   }
   return array
 }
-console.log(bubbleSort(rangeArray(10)))
+// console.log(bubbleSort(rangeArray(10)))
 function swap(array, i, j) {
   let temp = array[j]
   array[i] = array[j]
   array[j] = temp
 }
+// ------------------------------------------------------------------
 /**
  * @description
  * 选择排序
@@ -60,6 +61,7 @@ function selectSort(array) {
   return array
 }
 // console.log(selectSort([2,1,3,4,6,1,6,7]));
+// ------------------------------------------------------------------
 /**
  * @description
  * 插入排序
@@ -106,4 +108,46 @@ function inOrderTraverse(root, action = console.log) {
     action(root.val)
     inOrderTraverse(root.right)
   }
+}
+// ------------------------------------------------------------------
+// quick sort algorithm
+function quickSort(array) {
+  if (array.length <= 1) {
+    return [...array]
+  }
+  let pivot = Math.floor(Math.random() * array.length)
+  let left = []
+  let right = []
+  let middle = []
+  for (let val of array) {
+    if (val < array[pivot]) {
+      left.push(val)
+    } else if (val > array[pivot]) {
+      right.push(val)
+    } else {
+      middle.push(val)
+    }
+  }
+  return quickSort(left).concat(middle, quickSort(right))
+}
+console.log(quickSort(rangeArray(10)))
+
+function partition(array, start, end) {
+  if (start >= end) return
+
+  let pivotIndex = Math.floor(Math.random() * (end - start + 1) + start)
+  let pivot = array[pivotIndex]
+  swap(pivot, array[end])
+  for (let i = start - 1, j = start; j <= end; j++) {
+    if (array[j] <= pivot) {
+      i++
+      swap(array[j], array[i])
+    }
+  }
+  partition(array, start, i - 1)
+  partition(array, i + 1, end)
+  return array
+}
+function swap(a, b) {
+  [a, b] = [b, a]
 }

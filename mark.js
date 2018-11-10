@@ -377,3 +377,17 @@ function reduce(array, reducer, initVal) {
  *    不用递归使用循环 
  * 循环引用
  */
+// ------------------------------------------------------------------
+// memoize 的实现
+function memoize(fn) {
+  let cache = {}
+  return function() {
+    let key = JSON.stringify(arguments)
+    let value = cache[key]
+    if (!value) {
+      value = [fn.apply(this, arguments)]
+      cache[key] = value
+    }
+    return value[0]
+  }
+}
