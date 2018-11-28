@@ -66,6 +66,18 @@ function insertionSort(arr) {
   }
   return arr;
 }
+function insertionSort2(arr) {
+  let len = arr.length;
+  let j, p, tmp
+  for (p = 1; p < len; p++) {
+    tmp = arr[p]
+    for (j = p; j > 0 && arr[j - 1] > tmp; j--) {
+      arr[j] = arr[j - 1]
+    }
+    arr[j] = tmp
+  }
+  return arr
+}
 /** 
  * * 归并排序
  * ? 将原始数组切分称较小数组，直到每个小数组只有一个位置，接着合并成较大的数组，直到最后只有一个已经排序完的数组

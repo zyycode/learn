@@ -111,6 +111,26 @@ function inOrderTraverse(root, action = console.log) {
 }
 // ------------------------------------------------------------------
 // quick sort algorithm
+function partition(array, left = 0, right = array.length - 1) {
+  // 递归结束条件
+  if (left >= right) return
+
+  let pivotIndex =  Math.floor(Math.random() * (right - left + 1) + left)
+  let pivot = array[pivotIndex]
+  let i, j
+  // 将基准值与最后一个值进行交换
+  swap(array, pivotIndex, right)
+  for (i = left - 1, j = left; j <= right; j++) {
+    if (array[j] <= pivot) {
+      i++
+      swap(array, i, j)
+    }
+  }
+  partition(array, left, i - 1)
+  partition(array, i + 1, right)
+  return array
+}
+// ---------------------------------
 function quickSort(array) {
   if (array.length <= 1) {
     return [...array]
@@ -132,22 +152,48 @@ function quickSort(array) {
 }
 console.log(quickSort(rangeArray(10)))
 
-function partition(array, start, end) {
-  if (start >= end) return
-
-  let pivotIndex = Math.floor(Math.random() * (end - start + 1) + start)
-  let pivot = array[pivotIndex]
-  swap(pivot, array[end])
-  for (let i = start - 1, j = start; j <= end; j++) {
-    if (array[j] <= pivot) {
-      i++
-      swap(array[j], array[i])
+// ------------------------------------------
+function quickSort(arr, left, right) {
+  let len = arr.length;
+  let partitionIndex;
+  left = typeof left !== 'number' ? 0 : left;
+  right = typeof right !== 'number' ? len - 1 : right;
+  if (left <= right) {
+    partitionIndex = parition(arr, left, right);
+    quickSort(arr, left, partitionIndex - 1);
+    quickSort(arr, partitionIndex + 1, right);
+  }
+  return arr;
+}
+function parition(arr, left, right) {
+  let pivotIndex = Math.floor(Math.random() * (right - left + 1) + left)
+  let pivot = arr[pivotIndex]
+  let index = left - 1
+  swap(arr, pivotIndex, right)
+  for (let i = left; i <= right; i++) {
+    if (arr[i] <= pivot) {
+      index++
+      swap(arr, i, index)
     }
   }
-  partition(array, start, i - 1)
-  partition(array, i + 1, end)
-  return array
+  return index
 }
-function swap(a, b) {
-  [a, b] = [b, a]
+
+// ------------------------------------------------------------------
+function partition(arr, left = 0, right = arr.length - 1) {
+  if (left >= right) return
+  let pivotIndex = Math.floor(Math.random() * (right - left + 1) + left)
+  let pivot = arr[pivotIndex]
+  swap(arr, pivotIndex, right)
+  let index = left - 1
+  for (let i = left; i <= right; i++) {
+    if (arr[i] <= pivot) {
+      index++
+      swap(arr, i, index)
+    }
+  }
+  partition(arr, left, index - 1)
+  partition(arr, left + 1, right)
+  return arr
 }
+// console.log(partition(rangeArray(10)))

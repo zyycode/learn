@@ -20,10 +20,10 @@ function curry(fn, args = []) {
 var add = curry(function (a, b, c) {
   return a + b + c
 })
-console.log(add(1, 2, 3))
-console.log(add(1, 2)(3))
-console.log(add(1)(2, 3))
-console.log(add(1)(2)(3))
+// console.log(add(1, 2, 3))
+// console.log(add(1, 2)(3))
+// console.log(add(1)(2, 3))
+// console.log(add(1)(2)(3))
 // ----------------------------------------------------------------------------
 // call 的模拟实现
 /**
@@ -46,7 +46,7 @@ Function.prototype.call2 = function(context) {
   return result
 }
 // 优化实现
-Funtion.prototype.call3 = function(context) {
+Function.prototype.call3 = function(context) {
   context = context || window
   context.fn = this
   let args = [...arguments].slice(1)
@@ -391,3 +391,136 @@ function memoize(fn) {
     return value[0]
   }
 }
+function memoize(func, resolver) {
+  let momoized = function(...args) {
+    let { cache } = memoized
+    let key = resolver ? resolver.apply(this, args) : args[0]
+    if (!cache.has(key)) {
+      cache.set(key, func.apply(this, args))
+    }
+    return cache.get(key)
+  }
+  memoized.cache = new Map()
+  return momoized
+}
+
+function memoize(func, hasher) {
+  return function(key) {
+    let cache = {}
+    let address = '' + (hasher ? hasher.apply(this, arguments) : key)
+    if (!cache[address]) {
+      cache[address] = func.apply(this, arguments)
+    }
+    return cache[address]
+  }
+}
+function add(a, b, c) {
+  return a + b + c
+}
+var a = memoize(add, function () {
+  return JSON.stringify([].slice.call(arguments))
+})
+console.log(a(1,2,3))
+console.log(a(1,2,4))
+// ------------------------------------------------------------------
+function partition(arr, left=0, right=arr.length - 1) {
+  if (left >= right) return
+  let pivotIndex = Math.floor(Math.random() * (right - left + 1) + left)
+  let pivot = arr[pivotIndex]
+  swap(arr, pivotIndex, right)
+  let index = left - 1
+  for (let i = left; i <= right; i++) {
+    if (arr[i] <= pivot) {
+      index++
+      swap(arr, index, i)
+    }
+  }
+  partition(arr, left, index - 1)
+  partition(arr, index + 1, right)
+  return arr
+}
+function swap(arr, a, b) {
+  [arr[a], arr[b]] = [arr[b], arr[a]]
+}
+// console.log(partition([1,4,2,4,6,3,24,6,1,7]))
+// ------------------------------------------------------------------
+// Object.assign() 的实现
+function assign(target, args) {
+  if (target == null) {
+    throw new Error('cannot convert null or undefined to object.')
+  }
+  let resObj = Object(target)
+  for (let i = 1; i < arguments.length; i++) {
+    let srcObj = arguments[i]
+    if (srcObj != null) {
+      for (let key in srcObj) {
+        if (Object.prototype.hasOwnProperty.call(srcObj, key)) {
+          resObj[key] = srcObj[key]
+        }
+      }
+    }
+  }
+  return resObj
+}
+// ------------------------------------------------------------------
+// 求最长递增子序列
+// O(n^2)
+function lengthOfLIS(array) {
+  let len = array.length
+  let dp = new Array(len).fill(1)
+  let res = 0
+  for (let i = 0; i < len; i++) {
+    for (let j = 0; j < i; j++) {
+      if (array[j] < array[i]) {
+        dp[i] = Math.max(dp[i], dp[j] + 1)
+      }
+    }
+    res = Math.max(res, dp[i])
+  }
+  return res
+}
+// O(nlogn)
+function lengthOfLIS2(nums) {
+  if (nums.length <= 1) return nums.length
+
+  let res = [nums[0]]
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] < res[0]) {
+      res[0] = nums[i]
+    } else if (nums[i] > res[res.length - 1]) {
+      res.push(nums[i])
+    } else {
+      let index = binarySearch(res, nums[i]) 
+      res[index] = nums[i]
+    }
+  }
+  return res.length
+}
+function binarySearch(array, target) {
+  let left = 0
+  let right = array.length - 1
+  while (left < right) {
+    let mid = Math.floor((left + right) / 2)
+    if (target > array[mid]) {
+      left = mid + 1
+    } else {
+      right = mid
+    }
+  }
+  return right
+}
+function lengthOfLIS3(nums) {
+  let dp = [nums[0]]
+  for (let i = 1; i < nums.length; i++) {
+    let min = 0
+    let max = dp.length
+    while (min < max) {
+      let mid = Math.floor((min + max) / 2)
+      nums[i] > dp[mid] ? min = mid + 1 : max = mid
+    }
+    dp[max] = nums[i]
+  }
+  return dp.length
+}
+// console.log(lengthOfLIS3([1,2,3,4,5,4,5]))
+// ------------------------------------------------------------------
